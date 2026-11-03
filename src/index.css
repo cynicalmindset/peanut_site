@@ -4,45 +4,51 @@
 
 @layer base {
   :root {
-    --bg-paper: #FAF8F5;
-    --border-hairline: #E8E3DA;
-    --ink-black: #121316;
-    --accent-red: #E83D1B;
+    --bg-atmosphere: #F8FAFC;
+    --card-surface: #FFFFFF;
+    --text-primary: #0F172A;
+    --accent-blue: #3B82F6;
   }
 
   body {
-    background-color: var(--bg-paper);
-    color: var(--ink-black);
+    background-color: var(--bg-atmosphere);
+    color: var(--text-primary);
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.015em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Accessible focus indicators */
+  /* Accessible focus indicators with soft ring */
   *:focus-visible {
-    outline: 2px solid #E83D1B;
-    outline-offset: 2px;
+    outline: 2px solid #3B82F6;
+    outline-offset: 3px;
+    border-radius: 9999px;
   }
 }
 
-/* Editorial subtle paper texture */
-.paper-grain {
-  background-image: radial-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 0);
-  background-size: 24px 24px;
+/* Subtle cloud and atmospheric gradients */
+.bg-soft-atmosphere {
+  background: radial-gradient(120% 120% at 50% 0%, #EFF6FF 0%, #F8FAFC 60%, #F1F5F9 100%);
 }
 
-.dark .paper-grain {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 0);
-  background-size: 24px 24px;
+.dark .bg-soft-atmosphere {
+  background: radial-gradient(120% 120% at 50% 0%, #172033 0%, #0B0F19 60%, #070A10 100%);
 }
 
-/* Custom hairline borders */
-.border-editorial {
-  border-color: #E6E1D7;
+/* Soft glass effect */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
 }
-.dark .border-editorial {
-  border-color: #26282E;
+
+.dark .glass-panel {
+  background: rgba(19, 25, 38, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* Reduced motion preference */

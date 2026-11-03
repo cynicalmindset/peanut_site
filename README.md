@@ -1,143 +1,70 @@
-# K Explore — Independent Event Discovery Platform
+# atmosphere — Curated Event Discovery Platform
 
 [![React](https://img.shields.io/badge/React-18.3-61DAFB?logo=react&logoColor=black)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Vite](https://img.shields.io/badge/Vite-5.4-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
 
-**K Explore** is a handcrafted, responsive event discovery and registration platform designed with an editorial aesthetic inspired by independent cultural publications, archival exhibition registers, and modern festival journals.
-
-It rejects algorithmic marketing clutter and generic "AI-slop" design tropes (such as purple-blue gradient overlays, fake testimonials, floating glass blobs, and repetitive rounded cards) in favor of high-contrast typography, an intentional broadsheet grid, and authentic event curation.
+**atmosphere** is a responsive, soft-curated event discovery and registration platform. Inspired by calm, airy aesthetics, organic landscapes, and independent cultural journals, it connects curious minds to intimate modular synthesis symposia, risograph print labs, systems unconferences, and outdoor night gravel rides.
 
 ---
 
-## 🏛 Design Philosophy & Anti-AI Slop
+## ☁️ Design System & Aesthetic
 
-- **Typography First:** Paired editorial display serif (*Playfair Display*) with readable grotesque sans (*Plus Jakarta Sans*) and monospaced data stamps (*JetBrains Mono*).
-- **Restrained Color Palette:** Warm gallery paper off-white (`#FAF8F5`) or deep obsidian dark mode (`#0F1012`), paired with near-black ink (`#121316`) and one deliberate accent color: **Electric Vermilion** (`#E83D1B`).
-- **Asymmetric Grid System:** Dynamic compositions with varied visual hierarchy, featured centerpiece cards, and distinct listing presentations.
-- **Craft & Motion:** Subtle hairline borders (`1px solid #E6E1D7`), responsive image treatments, and transitions that respect `prefers-reduced-motion`.
-- **Honest Data Architecture:** Completely client-side with full transparency. No phantom servers, no marketing tracking; passes are stored locally in the user's browser.
-
----
-
-## ⚡ Core Features
-
-1. **Editorial Hero Section:**
-   - Asymmetric visual composition with date badges, active issue indicators, and live metro coverage statistics.
-   - Quick navigation into the discovery ledger and centerpiece feature.
-
-2. **Dynamic Discovery Engine:**
-   - **Real-Time Keyword Search:** Instant search across titles, descriptions, venues, cities, and tags.
-   - **Categorical Filtering:** Quick switching between *Technology*, *Music*, *Workshops*, *Cultural*, *Sports*, and *Community*.
-   - **Metro Filter:** Filter by host metro (*Bengaluru*, *Mumbai*, *Hyderabad*, *New Delhi*).
-   - **Chronological Sorting:** Sort by earliest date, latest date, available spots, or alphabetical title.
-   - **Active State Summary & Reset:** Live counters showing visible versus total entries with a one-click filter reset.
-
-3. **Centerpiece Feature & Chronological Index:**
-   - Centerpiece spotlight layout for primary cultural events with curator notes.
-   - Responsive multi-column grid for upcoming listings.
-
-4. **Event Dossier Detail View (`/event/:id`):**
-   - Full event dossier with high-resolution photography.
-   - Program timeline / schedule breakdown.
-   - Admission details, venue address, and host information.
-   - Native link sharing with clipboard confirmation.
-   - Clean breadcrumb navigation back to discovery.
-
-5. **Client-Side Registration Experience:**
-   - Interactive modal with real-time field validation (Full Name, Email format, Phone number 10–15 digits, Ticket count, Accessibility notes).
-   - Inline error states and preservation of valid inputs on failure.
-   - Anti-duplicate submission protection with simulated processing feedback.
-   - **Digital Ticket Pass Generation:** Renders a pass card with an authentic reference code (`KX-####-CITY`), attendee breakdown, and barcode graphic.
-   - **Add to Calendar (.ics):** Generates and downloads native `.ics` calendar invitation files.
-   - **Local Storage Persistence:** Keeps bookings safe between browser sessions.
-
-6. **My Passes Drawer:**
-   - Global side panel displaying all active RSVPs.
-   - Option to review passes, download calendar files, or cancel reservations.
-
-7. **Theming & Accessibility:**
-   - Light and Dark mode toggle with `localStorage` persistence and system preference detection.
-   - Keyboard accessible navigation with clear focus outlines (`:focus-visible`).
-   - Custom 404 page for unmatched routes.
+- **Soft Atmospheric Palette:** Soft sky blues (`#3B82F6`, `#60A5FA`, `#DBEAFE`), cloud whites (`#F8FAFC`), and dark velvet obsidian (`#0B0F19` for night mode).
+- **Inspo-Aligned Hero Canvas:** Framed rounded canvas (`rounded-3xl` / `rounded-[36px]`) featuring the high-fidelity `hero.png` landscape, clean white pill controls, floating search bar, and partner/collaborator banner.
+- **Pill Geometry:** Tactile `rounded-full` controls for category tags, navigation tabs, filter selectors, and primary action buttons.
+- **Card Craft:** Generous `rounded-3xl` corners, subtle hairline borders (`border-slate-200/80`), soft shadows (`shadow-soft` and `shadow-float`), and gentle hover micro-interactions.
+- **Human-Centric Typography:** Paired [Playfair Display](https://fonts.google.com/specimen/Playfair+Display) for expressive headings with [Plus Jakarta Sans](https://fonts.google.com/specimen/Plus+Jakarta+Sans) for legible body text.
 
 ---
 
-## 🛠 Technology Stack
+## ⚡ Key Features
 
-- **Framework:** React 18
-- **Language:** TypeScript 5.6
-- **Build Tool:** Vite 5.4
-- **Routing:** React Router DOM 6.28
-- **Styling:** Tailwind CSS 3.4 & PostCSS
-- **Icons:** Lucide React
-- **Celebration Feedback:** Canvas Confetti
+1. **Atmosphere Hero Showcase:**
+   - Framed panorama with `hero.png` as the hero centerpiece.
+   - Clean floating search pill bar enabling instant topic and city filtering.
+   - Inspo-style pill action buttons (*"Explore Events"*, *"Curated Feature"*).
+   - Live gathering ticker and metro coverage indicators.
 
----
+2. **Event Discovery Engine:**
+   - **Real-Time Search:** Search across title, tags, description, venue, and city.
+   - **Pill Category Filter:** Instant filtering between *Technology*, *Music*, *Workshops*, *Cultural*, *Sports*, and *Community*.
+   - **Metro & Date Sorting:** Sort by date, available capacity, or alphabetical title.
+   - **Featured Centerpiece:** Editorial broadsheet card highlighting the monthly feature.
 
-## 🚀 Getting Started
+3. **Event Dossier Route (`/event/:id`):**
+   - High-resolution hero banner, full program overview, and assembly timeline.
+   - Sticky admission sidebar with direct reservation CTA.
+   - One-click share action with clipboard confirmation.
 
-### Prerequisites
+4. **Client-Side Registration Experience:**
+   - Soft modal dialog with full field validation (Name, Email format, Phone number 10–15 digits, Ticket count).
+   - Prevents duplicate submissions with processing loader state.
+   - Digital pass card with authentic reference code (`ATM-####-CITY`), barcode graphic, and calendar invite (`.ics`) download.
+   - **Local Storage:** Stores all bookings locally in the browser with full privacy.
 
-- Node.js (version 18 or higher recommended)
-- npm or pnpm
+5. **My Passes Drawer:**
+   - Slide-out panel to view all registered bookings, download `.ics` calendar files, or cancel reservations.
 
-### Installation
-
-1. Clone or extract the repository:
-   ```bash
-   git clone <repository-url>
-   cd "peanut site"
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Launch development server:
-   ```bash
-   npm run dev
-   ```
-   Open your browser at `http://localhost:5173`.
-
-4. Build for production:
-   ```bash
-   npm run build
-   ```
-   The compiled static assets will be located in the `dist/` directory.
-
-5. Preview the production build locally:
-   ```bash
-   npm run preview
-   ```
+6. **Accessibility & Dark/Light Mode:**
+   - Seamless dark mode toggle with persistent local preference.
+   - Responsive across mobile (320px+), tablet, and desktop viewports.
 
 ---
 
-## 🚢 Deployment
+## 🚀 Running the Project
 
-The project builds to a completely static single-page application (SPA) in `dist/`.
+```bash
+# 1. Install dependencies
+npm install
 
-### Deploying to Vercel
-1. Install the Vercel CLI: `npm i -g vercel`
-2. Run `vercel` from the root directory.
-3. For client-side routing on Vercel, ensure `vercel.json` rewrites are configured:
-   ```json
-   {
-     "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
-   }
-   ```
+# 2. Start Vite development server
+npm run dev
 
-### Deploying to Netlify
-1. Drag and drop the `dist/` folder into the Netlify app dashboard, or connect via Git.
-2. In the Netlify build settings, set:
-   - Build command: `npm run build`
-   - Publish directory: `dist`
-3. Add a `public/_redirects` file with `/*  /index.html  200` to support client-side routing.
+# 3. Build for production
+npm run build
 
----
-
-## 📄 License
-
-Independent project released under the MIT License.
+# 4. Preview production build locally
+npm run preview
+```

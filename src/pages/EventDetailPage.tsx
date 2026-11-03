@@ -30,17 +30,17 @@ export const EventDetailPage: React.FC = () => {
   if (!event) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-24 text-center space-y-6">
-        <span className="font-mono text-sm text-accent">ERROR 404 / DOSSIER MISSING</span>
-        <h1 className="font-serif text-3xl sm:text-4xl font-bold text-ink-900 dark:text-white">
+        <span className="text-xs font-semibold uppercase tracking-wider text-blue-600">ERROR 404 / GATHERING MISSING</span>
+        <h1 className="font-serif text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">
           The requested gathering could not be located
         </h1>
-        <p className="text-ink-600 dark:text-neutral-400 font-sans max-w-md mx-auto">
-          The event reference "{id}" either expired from our active quarterly ledger or was archived.
+        <p className="text-slate-600 dark:text-slate-400 font-sans max-w-md mx-auto text-sm">
+          The event reference "{id}" either expired from our active quarterly register or was archived.
         </p>
         <div>
           <Link
             to="/"
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-ink-900 dark:bg-white text-white dark:text-ink-900 font-mono text-xs uppercase tracking-wider rounded-xs"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-blue-600 text-white text-xs font-semibold shadow-md shadow-blue-600/20"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Return to Discovery Index</span>
@@ -62,36 +62,36 @@ export const EventDetailPage: React.FC = () => {
   return (
     <div className="min-h-screen pb-20">
       
-      {/* Top Editorial Breadcrumbs & Back Navigation */}
-      <div className="border-b border-paper-300 dark:border-paper-borderDark bg-paper-200/40 dark:bg-paper-cardDark/40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between font-mono text-xs text-ink-600 dark:text-neutral-400">
+      {/* Top Soft Breadcrumbs & Back Navigation */}
+      <div className="border-b border-slate-200/80 dark:border-slate-800 bg-white/60 dark:bg-atmosphere-cardDark/60 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
           <div className="flex items-center gap-2 sm:gap-3 truncate">
             <Link 
               to="/" 
-              className="flex items-center gap-1.5 text-ink-900 dark:text-white hover:text-accent transition-colors font-medium shrink-0"
+              className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white hover:text-blue-600 transition-colors font-medium shrink-0"
             >
-              <ArrowLeft className="w-4 h-4" />
-              <span>Index</span>
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Directory</span>
             </Link>
-            <span className="text-paper-400 dark:text-neutral-600">/</span>
-            <span className="uppercase text-ink-500 dark:text-neutral-400 shrink-0">{event.category}</span>
-            <span className="text-paper-400 dark:text-neutral-600 hidden sm:inline">/</span>
-            <span className="truncate hidden sm:inline">{event.title}</span>
+            <span className="text-slate-300 dark:text-slate-700">/</span>
+            <span className="text-slate-600 dark:text-slate-300 font-medium shrink-0">{event.category}</span>
+            <span className="text-slate-300 dark:text-slate-700 hidden sm:inline">/</span>
+            <span className="truncate hidden sm:inline text-slate-400">{event.title}</span>
           </div>
 
           <button
             onClick={handleShare}
-            className="flex items-center gap-1.5 px-2.5 py-1 bg-white dark:bg-paper-cardDark border border-paper-300 dark:border-paper-borderDark text-ink-800 dark:text-neutral-200 hover:border-ink-900 dark:hover:border-neutral-300 rounded-xs transition-colors shrink-0"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-slate-400 transition-colors shadow-soft-sm shrink-0"
             aria-label="Share dossier link"
           >
             {copiedShare ? (
               <>
                 <Check className="w-3.5 h-3.5 text-emerald-600" />
-                <span className="text-emerald-600 font-semibold">Link Copied</span>
+                <span className="text-emerald-600 font-medium">Link Copied</span>
               </>
             ) : (
               <>
-                <Share2 className="w-3.5 h-3.5 text-accent" />
+                <Share2 className="w-3.5 h-3.5 text-blue-500" />
                 <span>Share</span>
               </>
             )}
@@ -109,90 +109,90 @@ export const EventDetailPage: React.FC = () => {
             {/* Header Titles */}
             <div className="space-y-4">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="px-3 py-1 bg-accent text-white font-mono text-xs uppercase tracking-widest font-semibold rounded-xs">
+                <span className="px-3.5 py-1 rounded-full bg-blue-600 text-white text-xs font-semibold tracking-wide shadow-sm">
                   {event.category}
                 </span>
-                <span className="px-3 py-1 bg-paper-200 dark:bg-paper-cardDark border border-paper-300 dark:border-paper-borderDark font-mono text-xs text-ink-700 dark:text-neutral-300 uppercase tracking-wider rounded-xs">
+                <span className="px-3.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-700 dark:text-slate-300">
                   {event.city}
                 </span>
                 {registered && (
-                  <span className="px-3 py-1 bg-emerald-600 text-white font-mono text-xs flex items-center gap-1 rounded-xs">
+                  <span className="px-3.5 py-1 rounded-full bg-emerald-600 text-white text-xs font-medium flex items-center gap-1 shadow-sm">
                     <CheckCircle2 className="w-3.5 h-3.5" />
-                    <span>RSVP CONFIRMED</span>
+                    <span>Pass Reserved</span>
                   </span>
                 )}
               </div>
 
-              <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-ink-900 dark:text-white leading-[1.12]">
+              <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 dark:text-white leading-[1.12]">
                 {event.title}
               </h1>
 
-              <p className="text-lg sm:text-xl text-ink-600 dark:text-neutral-300 font-normal leading-relaxed italic border-l-2 border-accent pl-4">
+              <p className="text-lg sm:text-xl text-slate-600 dark:text-slate-300 font-normal leading-relaxed italic border-l-2 border-blue-500 pl-4">
                 "{event.tagline}"
               </p>
             </div>
 
             {/* Immersive Event Hero Photograph */}
-            <div className="relative aspect-[16/9] overflow-hidden bg-ink-900 border border-paper-300 dark:border-paper-borderDark shadow-lg rounded-xs">
+            <div className="relative aspect-[16/9] overflow-hidden bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-soft-lg">
               <img
                 src={event.image}
                 alt={event.title}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute bottom-3 right-3 px-2.5 py-1 bg-black/75 text-white font-mono text-[10px] uppercase tracking-wider backdrop-blur-xs">
-                ARCHIVE VISUAL • {event.city}
+              <div className="absolute bottom-4 right-4 px-3 py-1.5 rounded-full bg-black/70 text-white text-xs font-medium backdrop-blur-md">
+                ATMOSPHERE ARCHIVE • {event.city}
               </div>
             </div>
 
             {/* Curator Dispatch Quote */}
             {event.curatorNote && (
-              <div className="p-6 bg-paper-200/60 dark:bg-paper-cardDark border-l-4 border-accent rounded-xs space-y-2">
-                <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent font-semibold">
+              <div className="p-6 rounded-3xl bg-blue-50/70 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900/40 space-y-2">
+                <div className="flex items-center gap-2 text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase">
                   <Sparkles className="w-3.5 h-3.5" />
-                  <span>Curator's Note & Context</span>
+                  <span>Curator Dispatch</span>
                 </div>
-                <p className="font-serif text-base sm:text-lg text-ink-900 dark:text-white leading-relaxed">
+                <p className="font-serif text-base sm:text-lg text-slate-800 dark:text-slate-200 leading-relaxed">
                   “{event.curatorNote}”
                 </p>
-                <div className="text-[11px] font-mono text-ink-500 dark:text-neutral-400">
+                <div className="text-xs text-slate-400 font-medium">
                   — Documented by {event.organizer}
                 </div>
               </div>
             )}
 
-            {/* Full Editorial Description */}
-            <div className="space-y-4 text-base sm:text-lg text-ink-800 dark:text-neutral-200 leading-relaxed font-sans">
-              <h2 className="font-serif text-2xl font-bold text-ink-900 dark:text-white border-b border-paper-300 dark:border-paper-borderDark pb-2">
+            {/* Full Description */}
+            <div className="space-y-4 text-base sm:text-lg text-slate-800 dark:text-slate-200 leading-relaxed font-sans">
+              <h2 className="font-serif text-2xl font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-3">
                 Overview & Program Statement
               </h2>
-              <div className="space-y-4 whitespace-pre-line text-ink-700 dark:text-neutral-300 text-base leading-relaxed">
+              <div className="space-y-4 whitespace-pre-line text-slate-600 dark:text-slate-300 text-base leading-relaxed">
                 {event.fullDescription}
               </div>
             </div>
 
-            {/* Program Itinerary / Schedule (if present) */}
+            {/* Program Itinerary / Schedule */}
             {event.schedule && event.schedule.length > 0 && (
               <div className="space-y-4 pt-4">
-                <h2 className="font-serif text-2xl font-bold text-ink-900 dark:text-white border-b border-paper-300 dark:border-paper-borderDark pb-2 flex items-center justify-between">
+                <h2 className="font-serif text-2xl font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-3 flex items-center justify-between">
                   <span>Assembly Timeline</span>
-                  <span className="font-mono text-xs font-normal text-ink-500 dark:text-neutral-400">
-                    Subject to organic flow
+                  <span className="text-xs font-normal text-slate-400">
+                    Subject to organic rhythm
                   </span>
                 </h2>
 
-                <div className="border border-paper-300 dark:border-paper-borderDark bg-white dark:bg-paper-cardDark divide-y divide-paper-200 dark:divide-paper-borderDark rounded-xs">
+                <div className="border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-atmosphere-cardDark divide-y divide-slate-100 dark:divide-slate-800 rounded-3xl overflow-hidden shadow-soft-sm">
                   {event.schedule.map((item, idx) => (
-                    <div key={idx} className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div key={idx} className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                       <div className="flex items-start gap-4">
-                        <span className="font-mono text-sm font-bold text-accent shrink-0 pt-0.5">
+                        <span className="text-xs font-bold text-blue-600 dark:text-blue-400 font-mono shrink-0 pt-0.5">
                           {item.time}
                         </span>
                         <div>
-                          <div className="font-medium text-ink-900 dark:text-white text-sm sm:text-base">
+                          <div className="font-medium text-slate-900 dark:text-white text-sm sm:text-base">
                             {item.activity}
                           </div>
                           {item.speaker && (
-                            <div className="text-xs font-mono text-ink-500 dark:text-neutral-400 mt-0.5">
+                            <div className="text-xs text-slate-400 mt-0.5">
                               Led by: {item.speaker}
                             </div>
                           )}
@@ -205,17 +205,17 @@ export const EventDetailPage: React.FC = () => {
             )}
 
             {/* Tags / Keywords */}
-            <div className="pt-4 border-t border-paper-300 dark:border-paper-borderDark space-y-3">
-              <span className="font-mono text-xs uppercase tracking-wider text-ink-500 dark:text-neutral-400 block">
+            <div className="pt-4 border-t border-slate-100 dark:border-slate-800 space-y-3">
+              <span className="text-xs uppercase tracking-wider text-slate-400 font-medium block">
                 Thematic Classifiers
               </span>
               <div className="flex flex-wrap gap-2">
                 {event.tags.map(t => (
                   <span
                     key={t}
-                    className="inline-flex items-center gap-1 px-3 py-1 bg-paper-200 dark:bg-paper-cardDark text-xs font-mono text-ink-700 dark:text-neutral-300 border border-paper-300 dark:border-paper-borderDark rounded-xs"
+                    className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-700 dark:text-slate-300"
                   >
-                    <Tag className="w-3 h-3 text-accent" />
+                    <Tag className="w-3 h-3 text-blue-500" />
                     {t}
                   </span>
                 ))}
@@ -224,73 +224,70 @@ export const EventDetailPage: React.FC = () => {
 
           </div>
 
-          {/* Right Column: Sticky Admission & Venue Sidebar (4 cols) */}
+          {/* Right Column: Sticky Admission Sidebar (4 cols) */}
           <div className="lg:col-span-4">
             <div className="sticky top-28 space-y-6">
               
-              {/* Registration / Admission Card */}
-              <div className="border border-paper-300 dark:border-paper-borderDark bg-white dark:bg-paper-cardDark p-6 rounded-xs shadow-md space-y-6">
+              <div className="border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-atmosphere-cardDark p-7 rounded-3xl shadow-soft space-y-6">
                 
-                <div className="space-y-1 pb-4 border-b border-paper-200 dark:border-paper-borderDark">
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-ink-400 dark:text-neutral-500 block">
+                <div className="space-y-1 pb-5 border-b border-slate-100 dark:border-slate-800">
+                  <span className="text-[11px] uppercase tracking-wider text-slate-400 block font-medium">
                     ADMISSION TIER
                   </span>
                   <div className="flex items-baseline justify-between">
-                    <span className="font-serif text-3xl font-bold text-ink-900 dark:text-white">
+                    <span className="font-serif text-3xl font-bold text-slate-900 dark:text-white">
                       {event.price}
                     </span>
-                    <span className="font-mono text-xs text-accent font-semibold">
-                      {event.spotsRemaining} spots remaining
+                    <span className="text-xs text-blue-600 dark:text-blue-400 font-medium">
+                      {event.spotsRemaining} spots left
                     </span>
                   </div>
                 </div>
 
-                {/* Event Logistics Checklist */}
-                <div className="space-y-3.5 font-mono text-xs">
-                  <div className="flex items-start gap-3 text-ink-700 dark:text-neutral-300">
-                    <Calendar className="w-4 h-4 text-accent shrink-0 mt-0.5" />
+                <div className="space-y-4 text-xs">
+                  <div className="flex items-start gap-3 text-slate-600 dark:text-slate-300">
+                    <Calendar className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
                     <div>
-                      <strong className="block text-ink-900 dark:text-white font-semibold">
+                      <strong className="block text-slate-900 dark:text-white font-semibold">
                         {event.displayDate}
                       </strong>
-                      <span className="text-ink-500 dark:text-neutral-400">{event.time}</span>
+                      <span className="text-slate-400">{event.time}</span>
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-3 text-ink-700 dark:text-neutral-300">
-                    <MapPin className="w-4 h-4 text-accent shrink-0 mt-0.5" />
+                  <div className="flex items-start gap-3 text-slate-600 dark:text-slate-300">
+                    <MapPin className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
                     <div>
-                      <strong className="block text-ink-900 dark:text-white font-semibold">
+                      <strong className="block text-slate-900 dark:text-white font-semibold">
                         {event.venue}
                       </strong>
-                      <span className="text-ink-500 dark:text-neutral-400">{event.address}, {event.city}</span>
+                      <span className="text-slate-400">{event.address}, {event.city}</span>
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-3 text-ink-700 dark:text-neutral-300">
-                    <ShieldCheck className="w-4 h-4 text-accent shrink-0 mt-0.5" />
+                  <div className="flex items-start gap-3 text-slate-600 dark:text-slate-300">
+                    <ShieldCheck className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
                     <div>
-                      <strong className="block text-ink-900 dark:text-white font-semibold">
-                        Capacity: {event.capacity} total attendees
+                      <strong className="block text-slate-900 dark:text-white font-semibold">
+                        Capacity: {event.capacity} attendees
                       </strong>
-                      <span className="text-ink-500 dark:text-neutral-400">Host: {event.organizer}</span>
+                      <span className="text-slate-400">Host: {event.organizer}</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Action CTA Button */}
                 <div className="pt-2">
                   <button
                     onClick={() => openRegistrationModal(event)}
-                    className={`w-full py-3.5 px-4 font-mono text-xs uppercase tracking-widest font-semibold text-white rounded-xs transition-all shadow-md active:scale-98 ${
+                    className={`w-full py-3.5 px-4 text-xs uppercase tracking-wider font-semibold text-white rounded-full transition-all shadow-md active:scale-95 ${
                       registered
-                        ? 'bg-emerald-600 hover:bg-emerald-700'
-                        : 'bg-accent hover:bg-accent-hover'
+                        ? 'bg-emerald-600 hover:bg-emerald-700 shadow-emerald-600/20'
+                        : 'bg-blue-600 hover:bg-blue-700 shadow-blue-600/25'
                     }`}
                   >
-                    {registered ? 'View Your Confirmed Pass' : 'Reserve Admission Spot'}
+                    {registered ? 'View Confirmed Pass' : 'Reserve Admission Spot'}
                   </button>
-                  <p className="text-[11px] font-mono text-center text-ink-400 dark:text-neutral-500 mt-2">
+                  <p className="text-[11px] text-center text-slate-400 mt-2">
                     Instant local confirmation • No payment gateway required
                   </p>
                 </div>
@@ -298,12 +295,12 @@ export const EventDetailPage: React.FC = () => {
               </div>
 
               {/* Back to Browse */}
-              <div className="p-4 border border-paper-300 dark:border-paper-borderDark bg-paper-100 dark:bg-paper-dark rounded-xs font-mono text-xs text-center">
+              <div className="p-4 rounded-2xl bg-slate-100/70 dark:bg-slate-800/40 text-xs text-center">
                 <Link
                   to="/"
-                  className="text-ink-800 dark:text-neutral-200 hover:text-accent flex items-center justify-center gap-1.5 font-semibold"
+                  className="text-slate-700 dark:text-slate-300 hover:text-blue-600 flex items-center justify-center gap-1.5 font-medium"
                 >
-                  <Compass className="w-4 h-4 text-accent" />
+                  <Compass className="w-4 h-4 text-blue-500" />
                   <span>Browse More Gatherings in {event.city}</span>
                 </Link>
               </div>

@@ -55,3 +55,4 @@ export interface RegistrationRecord {
   registeredAt: string;
   referenceCode: string;
 }
+

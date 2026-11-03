@@ -15,7 +15,7 @@ interface RegistrationContextType {
   closePassesDrawer: () => void;
 }
 
-const STORAGE_KEY = 'kexplore_registrations_v1';
+const STORAGE_KEY = 'atmosphere_registrations_v1';
 
 const RegistrationContext = createContext<RegistrationContextType | undefined>(undefined);
 
@@ -52,10 +52,10 @@ export const RegistrationProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const addRegistration = async (
     data: Omit<RegistrationRecord, 'id' | 'registeredAt' | 'referenceCode'>
   ): Promise<RegistrationRecord> => {
-    // Generate a unique human-friendly ticket reference code, e.g. KX-8492-BOM
+    // Generate a unique human-friendly ticket reference code, e.g. ATM-8492-BOM
     const cityCode = data.eventCity.slice(0, 3).toUpperCase();
     const randomHex = Math.floor(1000 + Math.random() * 9000);
-    const referenceCode = `KX-${randomHex}-${cityCode}`;
+    const referenceCode = `ATM-${randomHex}-${cityCode}`;
 
     const newRecord: RegistrationRecord = {
       ...data,
@@ -109,3 +109,4 @@ export const useRegistration = () => {
   if (!context) throw new Error('useRegistration must be used within a RegistrationProvider');
   return context;
 };
+
