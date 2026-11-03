@@ -9,9 +9,23 @@ export const Navbar: React.FC = () => {
   const { registrations, openPassesDrawer } = useRegistration();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [navSearch, setNavSearch] = useState('');
+  const [scrollProgress, setScrollProgress] = useState(0);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const location = useLocation();
   const navigate = useNavigate();
+
+  // Scroll Progress Tracking for Apple-style smooth scroll indicator
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalScroll = document.documentElement.scrollTop;
+      const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      if (windowHeight > 0) {
+        setScrollProgress((totalScroll / windowHeight) * 100);
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Keyboard shortcut: Pressing "/" focuses search input
   useEffect(() => {
@@ -225,6 +239,12 @@ export const Navbar: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Apple-style Micro Scroll Progress Indicator Line */}
+      <div 
+        className="absolute bottom-0 left-0 h-[2px] bg-[#1F2328] dark:bg-white transition-all duration-75 ease-out z-50 pointer-events-none"
+        style={{ width: `${scrollProgress}%` }}
+      />
     </header>
   );
 };

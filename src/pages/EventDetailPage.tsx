@@ -10,7 +10,8 @@ import {
   Sparkles, 
   Tag, 
   ShieldCheck,
-  Compass
+  Compass,
+  Ticket
 } from 'lucide-react';
 import { EVENTS_DATA } from '../data/events';
 import { useRegistration } from '../context/RegistrationContext';
@@ -60,18 +61,18 @@ export const EventDetailPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F6F8FA] dark:bg-[#0D1117] text-[#1F2328] dark:text-white pb-24 transition-colors">
+    <div className="min-h-screen bg-[#F6F8FA] dark:bg-[#0D1117] text-[#1F2328] dark:text-white pb-28 transition-colors">
       
       {/* Top Breadcrumbs & Back Navigation */}
-      <div className="border-b border-[#D0D7DE] dark:border-[#30363D] bg-white/80 dark:bg-[#161B22]/80 backdrop-blur-md transition-colors">
+      <div className="border-b border-[#D0D7DE] dark:border-[#30363D] bg-white/90 dark:bg-[#161B22]/90 backdrop-blur-md sticky top-16 z-30 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between text-xs text-[#656D76] dark:text-[#8B949E]">
           <div className="flex items-center gap-2 sm:gap-3 truncate">
             <Link 
               to="/" 
-              className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/5 dark:bg-white/10 text-[#1F2328] dark:text-white hover:bg-black/10 dark:hover:bg-white/20 transition-colors font-medium shrink-0 font-mono"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#F6F8FA] dark:bg-[#0D1117] border border-[#D0D7DE] dark:border-[#30363D] text-[#1F2328] dark:text-white hover:border-[#1F2328] dark:hover:border-white/60 transition-colors font-medium shrink-0 font-mono shadow-sm"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Directory</span>
+              <span>All Gatherings</span>
             </Link>
             <span className="text-[#D0D7DE] dark:text-[#30363D]">/</span>
             <span className="text-[#1F2328] dark:text-white/80 font-medium shrink-0">{event.category}</span>
@@ -81,7 +82,7 @@ export const EventDetailPage: React.FC = () => {
 
           <button
             onClick={handleShare}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white dark:bg-[#161B22] border border-[#D0D7DE] dark:border-[#30363D] text-[#1F2328] dark:text-[#C9D1D9] hover:border-[#1F2328]/40 dark:hover:border-white/40 transition-colors shrink-0 shadow-sm"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white dark:bg-[#161B22] border border-[#D0D7DE] dark:border-[#30363D] text-[#1F2328] dark:text-[#C9D1D9] hover:border-[#1F2328] dark:hover:border-white/60 transition-colors shrink-0 shadow-sm font-medium"
             aria-label="Share gathering link"
           >
             {copiedShare ? (
@@ -132,14 +133,22 @@ export const EventDetailPage: React.FC = () => {
               </p>
             </div>
 
-            {/* Immersive Event Hero Photograph */}
-            <div className="relative aspect-[16/9] overflow-hidden bg-white dark:bg-[#161B22] rounded-2xl border border-[#D0D7DE] dark:border-[#30363D] shadow-xl">
+            {/* Immersive Event Hero Artwork with Ambient Backdrop */}
+            <div className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden border border-[#D0D7DE] dark:border-[#30363D] bg-black/5 dark:bg-black/60 shadow-xl flex items-center justify-center p-4 sm:p-8 min-h-[360px] sm:min-h-[460px]">
+              {/* Blurred Ambient Backdrop Glow */}
+              <div 
+                className="absolute inset-0 bg-cover bg-center blur-2xl opacity-30 dark:opacity-40 scale-110 pointer-events-none"
+                style={{ backgroundImage: `url(${event.image})` }}
+              />
+
+              {/* Centered Poster Artwork Preserving Original Dimensions */}
               <img
                 src={event.image}
                 alt={event.title}
-                className="w-full h-full object-cover"
+                className="relative z-10 max-h-[500px] w-auto max-w-full object-contain rounded-xl sm:rounded-2xl shadow-2xl border border-black/10 dark:border-white/10"
               />
-              <div className="absolute bottom-4 right-4 px-3 py-1.5 rounded-full bg-black/80 text-white text-xs font-mono backdrop-blur-md border border-white/10 shadow-md">
+
+              <div className="absolute bottom-4 right-4 z-20 px-3 py-1.5 rounded-full bg-black/80 text-white text-[11px] font-mono backdrop-blur-md border border-white/10 shadow-md">
                 ATMOSPHERE ARCHIVE • {event.city}
               </div>
             </div>
@@ -226,19 +235,19 @@ export const EventDetailPage: React.FC = () => {
 
           {/* Right Column: Sticky Admission Sidebar (4 cols) */}
           <div className="lg:col-span-4">
-            <div className="sticky top-28 space-y-6">
+            <div className="sticky top-32 space-y-6">
               
               <div className="border border-[#D0D7DE] dark:border-[#30363D] bg-white dark:bg-[#161B22] p-6 sm:p-7 rounded-2xl shadow-xl space-y-6 transition-colors">
                 
                 <div className="space-y-1 pb-5 border-b border-[#D0D7DE] dark:border-[#30363D]">
-                  <span className="text-[10px] uppercase tracking-wider text-[#656D76] dark:text-[#8B949E] block font-mono">
-                    ADMISSION TIER
+                  <span className="text-[10px] uppercase tracking-wider text-[#656D76] dark:text-[#8B949E] block font-mono font-semibold">
+                    ADMISSION PASS
                   </span>
-                  <div className="flex items-baseline justify-between">
-                    <span className="text-2xl sm:text-3xl font-extrabold text-[#1F2328] dark:text-white font-mono">
+                  <div className="flex items-baseline justify-between pt-1">
+                    <span className="text-3xl sm:text-4xl font-extrabold text-[#1F2328] dark:text-white font-mono">
                       {event.price}
                     </span>
-                    <span className="text-xs text-amber-600 dark:text-amber-400 font-mono font-medium">
+                    <span className="text-xs text-amber-600 dark:text-amber-400 font-mono font-medium px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20">
                       {event.spotsRemaining} spots left
                     </span>
                   </div>
@@ -271,24 +280,25 @@ export const EventDetailPage: React.FC = () => {
                       <strong className="block text-[#1F2328] dark:text-white font-semibold">
                         Capacity: {event.capacity} attendees
                       </strong>
-                      <span className="text-[#656D76] dark:text-[#8B949E]">Host: {event.organizer}</span>
+                      <span className="text-[#656D76] dark:text-[#8B949E]">Curated by {event.organizer}</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="pt-2">
+                <div className="pt-2 space-y-2">
                   <button
                     onClick={() => openRegistrationModal(event)}
-                    className={`w-full py-3 px-4 text-xs font-semibold rounded-full transition-all shadow-md active:scale-95 ${
+                    className={`w-full py-3.5 px-5 text-sm font-semibold rounded-full transition-all shadow-md active:scale-95 flex items-center justify-center gap-2 cursor-pointer ${
                       registered
                         ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-600/20'
-                        : 'bg-[#1F2328] hover:bg-[#2D333B] text-white dark:bg-white dark:text-black dark:hover:bg-white/90 shadow-md'
+                        : 'bg-[#1F2328] hover:bg-black text-white dark:bg-white dark:text-black dark:hover:bg-[#F0F0F0] shadow-md hover:shadow-lg'
                     }`}
                   >
-                    {registered ? 'View Confirmed Pass' : 'Reserve Admission Spot'}
+                    <Ticket className="w-4 h-4" />
+                    <span>{registered ? 'View Reserved Pass' : 'Book Tickets'}</span>
                   </button>
-                  <p className="text-[11px] text-center text-[#656D76] dark:text-[#8B949E] mt-2 font-mono">
-                    Instant local confirmation • No external tracking
+                  <p className="text-[11px] text-center text-[#656D76] dark:text-[#8B949E] font-mono">
+                    Instant local confirmation • No payment gateway required
                   </p>
                 </div>
 

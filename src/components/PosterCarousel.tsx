@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { EVENTS_DATA } from '../data/events';
-import { useRegistration } from '../context/RegistrationContext';
 
 export const PosterCarousel: React.FC = () => {
-  const { openRegistrationModal } = useRegistration();
+  const navigate = useNavigate();
   const [scrollY, setScrollY] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -60,7 +60,7 @@ export const PosterCarousel: React.FC = () => {
   const fullRow2 = [...row2Posters, ...row2Posters];
 
   // Subtle scroll parallax shift that accents the continuous animation
-  const scrollShift = scrollY * 0.15;
+  const scrollShift = Math.max(-60, Math.min(60, (scrollY - 200) * 0.08));
 
   return (
     <section 
@@ -98,7 +98,7 @@ export const PosterCarousel: React.FC = () => {
             {fullRow1.map((item, index) => (
               <div
                 key={`r1-${index}`}
-                onClick={() => openRegistrationModal(item.event)}
+                onClick={() => navigate(`/event/${item.event.id}`)}
                 className="group relative shrink-0 w-24 sm:w-32 md:w-36 h-32 sm:h-44 md:h-48 rounded-xl sm:rounded-2xl overflow-hidden cursor-pointer border border-[#D0D7DE] dark:border-[#30363D] hover:border-[#1F2328] dark:hover:border-white/60 bg-white dark:bg-[#161B22] shadow-sm dark:shadow-md select-none transition-transform duration-200 hover:scale-[1.03]"
                 title={`View ${item.event.title}`}
               >
@@ -123,7 +123,7 @@ export const PosterCarousel: React.FC = () => {
             {fullRow2.map((item, index) => (
               <div
                 key={`r2-${index}`}
-                onClick={() => openRegistrationModal(item.event)}
+                onClick={() => navigate(`/event/${item.event.id}`)}
                 className="group relative shrink-0 w-24 sm:w-32 md:w-36 h-32 sm:h-44 md:h-48 rounded-xl sm:rounded-2xl overflow-hidden cursor-pointer border border-[#D0D7DE] dark:border-[#30363D] hover:border-[#1F2328] dark:hover:border-white/60 bg-white dark:bg-[#161B22] shadow-sm dark:shadow-md select-none transition-transform duration-200 hover:scale-[1.03]"
                 title={`View ${item.event.title}`}
               >

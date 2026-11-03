@@ -167,7 +167,7 @@ export const RegistrationModal: React.FC = () => {
           <div className="flex items-center gap-2 text-xs font-mono tracking-wider">
             <Ticket className="w-4 h-4 text-[#1F2328] dark:text-white" />
             <span className="uppercase font-semibold text-[#1F2328] dark:text-white">
-              {confirmedRecord ? 'Registration Confirmed' : 'Reserve Admission Spot'}
+              {confirmedRecord ? 'Booking Confirmed' : 'Book Tickets · Admission Pass'}
             </span>
           </div>
 
@@ -474,10 +474,10 @@ export const RegistrationModal: React.FC = () => {
                 {isSubmitting ? (
                   <>
                     <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                    <span>Reserving...</span>
+                    <span>Processing Booking...</span>
                   </>
                 ) : (
-                  <span>Confirm Reservation</span>
+                  <span>Confirm Booking</span>
                 )}
               </button>
             </div>

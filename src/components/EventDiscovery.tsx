@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Search, X, ChevronRight, CheckCircle2, ArrowUpRight } from 'lucide-react';
 import { EventItem, EventCategory } from '../types/event';
 import { CATEGORIES_LIST } from '../data/events';
@@ -16,6 +16,7 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
   searchQuery: externalSearchQuery,
   onSearchChange,
 }) => {
+  const navigate = useNavigate();
   const { openRegistrationModal, isRegistered } = useRegistration();
 
   const [selectedCategory, setSelectedCategory] = useState<EventCategory>('All');
@@ -119,23 +120,25 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
 
         {/* 1. TOP SEGMENTED PILL BAR */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div id="categories-filter" className="inline-flex items-center p-1 rounded-full bg-white dark:bg-[#161B22] border border-[#D0D7DE] dark:border-[#30363D] shadow-sm">
-            {CATEGORIES_LIST.slice(0, 5).map(cat => {
-              const active = selectedCategory === cat;
-              return (
-                <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`px-4 sm:px-5 py-1.5 text-xs sm:text-sm font-medium rounded-full transition-all duration-150 ${
-                    active
-                      ? 'bg-[#1F2328] text-white dark:bg-white dark:text-black font-semibold shadow-sm'
-                      : 'text-[#656D76] dark:text-[#8B949E] hover:text-[#1F2328] dark:hover:text-white'
-                  }`}
-                >
-                  {cat === 'All' ? 'All Gatherings' : cat}
-                </button>
-              );
-            })}
+          <div className="w-full sm:w-auto overflow-x-auto scrollbar-none py-1 -my-1 flex justify-start sm:justify-center">
+            <div id="categories-filter" className="inline-flex items-center p-1 rounded-full bg-white dark:bg-[#161B22] border border-[#D0D7DE] dark:border-[#30363D] shadow-sm shrink-0 whitespace-nowrap">
+              {CATEGORIES_LIST.slice(0, 5).map(cat => {
+                const active = selectedCategory === cat;
+                return (
+                  <button
+                    key={cat}
+                    onClick={() => setSelectedCategory(cat)}
+                    className={`px-3.5 sm:px-5 py-1.5 text-xs sm:text-sm font-medium rounded-full transition-all duration-150 shrink-0 ${
+                      active
+                        ? 'bg-[#1F2328] text-white dark:bg-white dark:text-black font-semibold shadow-sm'
+                        : 'text-[#656D76] dark:text-[#8B949E] hover:text-[#1F2328] dark:hover:text-white'
+                    }`}
+                  >
+                    {cat === 'All' ? 'All Gatherings' : cat}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           {/* Clean Search Input */}
@@ -161,18 +164,18 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
 
         {/* 2. REPLAY HEADER & MONTH TIMELINE */}
         <div className="space-y-4 pt-2 border-b border-[#D0D7DE] dark:border-[#30363D] pb-7">
-          <div className="flex flex-wrap items-baseline justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#1F2328] dark:text-white">
+          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 sm:gap-4">
+            <div className="flex items-center justify-between sm:justify-start gap-2.5 sm:gap-3">
+              <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#1F2328] dark:text-white">
                 Upcoming Gatherings
               </h2>
-              <span className="px-3 py-1 text-xs font-medium rounded-full bg-white dark:bg-[#161B22] border border-[#D0D7DE] dark:border-[#30363D] text-[#656D76] dark:text-[#8B949E] shadow-sm">
+              <span className="px-2.5 sm:px-3 py-0.5 sm:py-1 text-[11px] sm:text-xs font-medium rounded-full bg-white dark:bg-[#161B22] border border-[#D0D7DE] dark:border-[#30363D] text-[#656D76] dark:text-[#8B949E] shadow-sm shrink-0">
                 2026 ▾
               </span>
             </div>
 
             {/* City Location Filter */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 self-start sm:self-auto">
               <span className="text-xs text-[#656D76] dark:text-[#8B949E] font-mono">Location:</span>
               <select
                 value={selectedCity}
@@ -189,14 +192,14 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
           </div>
 
           {/* Month Selector Pills */}
-          <div className="flex items-center gap-2 overflow-x-auto scrollbar-none pt-2">
+          <div className="flex items-center gap-2 overflow-x-auto scrollbar-none pt-1">
             {months.map(m => {
               const active = selectedMonth === m;
               return (
                 <button
                   key={m}
                   onClick={() => setSelectedMonth(m)}
-                  className={`text-xs sm:text-sm font-medium px-3.5 py-1.5 rounded-full transition-colors ${
+                  className={`text-xs sm:text-sm font-medium px-3.5 py-1.5 rounded-full transition-colors shrink-0 ${
                     active
                       ? 'bg-[#1F2328] text-white dark:bg-white dark:text-black font-semibold shadow-sm'
                       : 'text-[#656D76] dark:text-[#8B949E] hover:text-[#1F2328] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/[0.04]'
@@ -209,8 +212,8 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
           </div>
 
           {/* Typography Callout Stat */}
-          <div className="pt-2">
-            <p className="text-lg sm:text-2xl md:text-3xl font-medium text-[#656D76] dark:text-[#8B949E]">
+          <div className="pt-1">
+            <p className="text-base sm:text-2xl md:text-3xl font-medium text-[#656D76] dark:text-[#8B949E]">
               You have <span className="font-bold text-[#1F2328] dark:text-white">{filteredEvents.length} curated gatherings</span> lined up for{' '}
               <span className="font-bold text-[#1F2328] dark:text-white underline decoration-[#D0D7DE] dark:decoration-[#30363D] underline-offset-4">
                 Season 2026
@@ -221,7 +224,7 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
 
         {/* 3. SECTION 1: TOP GATHERINGS */}
         {topHeadliners.length > 0 && (
-          <div className="space-y-5">
+          <div className="space-y-4 sm:space-y-5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1.5 text-xl sm:text-2xl font-bold text-[#1F2328] dark:text-white">
                 <span>Top Gatherings</span>
@@ -231,15 +234,15 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
             </div>
 
             {/* Horizontal Scroll Deck */}
-            <div className="flex gap-4 sm:gap-6 overflow-x-auto pb-4 scrollbar-none pt-2 -mx-4 px-4 sm:mx-0 sm:px-0">
+            <div className="flex gap-4 sm:gap-6 overflow-x-auto pb-4 scrollbar-none pt-2 -mx-4 px-4 sm:mx-0 sm:px-0 snap-x snap-mandatory">
               {topHeadliners.map((event, index) => {
                 const registered = isRegistered(event.id);
                 const rank = index + 1;
                 return (
                   <div
                     key={event.id}
-                    onClick={() => openRegistrationModal(event)}
-                    className="group relative shrink-0 w-[220px] sm:w-[260px] md:w-[280px] h-[320px] sm:h-[370px] md:h-[400px] rounded-[24px] sm:rounded-[28px] overflow-hidden bg-white dark:bg-[#161B22] border border-[#D0D7DE] dark:border-[#30363D] hover:border-[#1F2328] dark:hover:border-white/30 cursor-pointer shadow-lg dark:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                    onClick={() => navigate(`/event/${event.id}`)}
+                    className="group relative shrink-0 snap-start w-[210px] sm:w-[260px] md:w-[280px] h-[310px] sm:h-[370px] md:h-[400px] rounded-[24px] sm:rounded-[28px] overflow-hidden bg-white dark:bg-[#161B22] border border-[#D0D7DE] dark:border-[#30363D] hover:border-[#1F2328] dark:hover:border-white/30 cursor-pointer shadow-lg dark:shadow-xl transition-all duration-300 hover:-translate-y-1"
                   >
                     {/* Poster Artwork Image */}
                     <img
@@ -321,7 +324,7 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
 
                   {/* Square Cover Poster Artwork */}
                   <div
-                    onClick={() => openRegistrationModal(event)}
+                    onClick={() => navigate(`/event/${event.id}`)}
                     className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-xl overflow-hidden shrink-0 cursor-pointer shadow-sm bg-[#E1E4E8] dark:bg-[#161B22] border border-[#D0D7DE] dark:border-[#30363D]"
                   >
                     <img
