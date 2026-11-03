@@ -24,14 +24,18 @@ export const Navbar: React.FC = () => {
     <header className="sticky top-0 z-40 w-full bg-white/80 dark:bg-atmosphere-cardDark/80 backdrop-blur-xl border-b border-slate-200/60 dark:border-slate-800/80 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         
-        {/* Brand Wordmark - atmosphere */}
+        {/* Brand Wordmark - atmosphere with logo.gif */}
         <Link 
           to="/" 
-          className="flex items-center gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-full"
+          className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-full"
           aria-label="atmosphere home"
         >
-          <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-blue-600 to-sky-400 text-white flex items-center justify-center shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform duration-300">
-            <span className="font-serif text-lg font-bold">a</span>
+          <div className="w-10 h-10 rounded-full overflow-hidden bg-slate-100 dark:bg-slate-800 flex items-center justify-center shadow-md shadow-blue-500/15 group-hover:scale-105 transition-transform duration-300 border border-slate-200/80 dark:border-slate-700 shrink-0">
+            <img 
+              src="/logo.gif" 
+              alt="atmosphere logo" 
+              className="w-full h-full object-cover"
+            />
           </div>
           <div className="flex flex-col">
             <span className="font-display text-2xl font-semibold tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5">

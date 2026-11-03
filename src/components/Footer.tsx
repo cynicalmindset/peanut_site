@@ -17,9 +17,13 @@ export const Footer: React.FC = () => {
           
           {/* Brand Col */}
           <div className="md:col-span-5 space-y-4">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-serif text-lg font-bold shadow-md shadow-blue-500/20">
-                a
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full overflow-hidden bg-slate-100 dark:bg-slate-800 flex items-center justify-center shadow-md shadow-blue-500/15 border border-slate-200/80 dark:border-slate-700 shrink-0">
+                <img 
+                  src="/logo.gif" 
+                  alt="atmosphere logo" 
+                  className="w-full h-full object-cover"
+                />
               </div>
               <span className="font-display text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
                 atmosphere<span className="text-blue-500">.</span>
