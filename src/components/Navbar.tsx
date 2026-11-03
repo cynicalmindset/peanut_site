@@ -66,7 +66,7 @@ export const Navbar: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white dark:bg-[#0D1117] border-b border-[#D0D7DE] dark:border-[#30363D] text-[#1F2328] dark:text-[#E6EDF3] transition-colors">
+    <header className="sticky top-0 z-50 w-full max-w-full bg-white dark:bg-[#0D1117] border-b border-[#D0D7DE] dark:border-[#30363D] text-[#1F2328] dark:text-[#E6EDF3] transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
         
         {/* Left: Logo & Wordmark */}

@@ -83,7 +83,7 @@ export const OffersSection: React.FC = () => {
   };
 
   return (
-    <section id="offers" className="relative w-full bg-[#F6F8FA] dark:bg-[#0D1117] text-[#1F2328] dark:text-white py-16 sm:py-24 border-b border-[#D0D7DE] dark:border-[#30363D] transition-colors">
+    <section id="offers" className="relative w-full max-w-full overflow-hidden bg-[#F6F8FA] dark:bg-[#0D1117] text-[#1F2328] dark:text-white py-16 sm:py-24 border-b border-[#D0D7DE] dark:border-[#30363D] transition-colors">
       
       {/* Ambient subtle light */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[300px] bg-black/[0.02] dark:bg-white/[0.02] blur-[140px] pointer-events-none rounded-full" />

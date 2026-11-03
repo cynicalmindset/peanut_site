@@ -153,7 +153,7 @@ export const Hero: React.FC<HeroProps> = () => {
   const gridColor = isDark ? 'rgba(255, 255, 255, 0.10)' : 'rgba(0, 0, 0, 0.08)';
 
   return (
-    <section className="hero-mobile-fullscreen relative w-full bg-[#F6F8FA] dark:bg-[#0D1117] text-[#1F2328] dark:text-white flex flex-col justify-between pt-3 sm:pt-20 md:pt-24 pb-3 sm:pb-0 overflow-hidden border-b border-[#D0D7DE] dark:border-[#30363D] transition-colors">
+    <section className="hero-mobile-fullscreen relative w-full max-w-full overflow-hidden bg-[#F6F8FA] dark:bg-[#0D1117] text-[#1F2328] dark:text-white flex flex-col justify-between pt-3 sm:pt-20 md:pt-24 pb-3 sm:pb-0 border-b border-[#D0D7DE] dark:border-[#30363D] transition-colors">
       
       {/* Big, Visible, Fading Grid Background (80px tiles with distinct contrast) */}
       <div 
@@ -170,10 +170,10 @@ export const Hero: React.FC<HeroProps> = () => {
       />
 
       {/* Ambient center light */}
-      <div className="absolute top-28 left-1/2 -translate-x-1/2 w-[700px] h-[280px] bg-blue-500/[0.05] dark:bg-blue-500/[0.07] blur-[140px] pointer-events-none rounded-full" />
+      <div className="absolute top-28 left-1/2 -translate-x-1/2 w-[420px] sm:w-[700px] h-[280px] bg-blue-500/[0.05] dark:bg-blue-500/[0.07] blur-[140px] pointer-events-none rounded-full" />
 
       {/* Centered Heading Content with Harmonious Dual-Font Typography */}
-      <div className="relative z-20 max-w-3xl mx-auto px-4 text-center space-y-1 sm:space-y-3 pt-1">
+      <div className="relative z-20 max-w-3xl mx-auto px-4 text-center space-y-1.5 sm:space-y-3 pt-6 xs:pt-8 sm:pt-0">
         <h1 className="text-center select-none">
           <span className="block font-sans font-bold tracking-tight text-3xl sm:text-5xl md:text-6xl text-[#1F2328] dark:text-white leading-[1.18] pb-0.5 sm:pb-2">
             Curated Gatherings
@@ -183,16 +183,16 @@ export const Hero: React.FC<HeroProps> = () => {
           </span>
         </h1>
 
-        <p className="text-xs sm:text-sm md:text-base text-[#656D76] dark:text-[#8B949E] max-w-lg mx-auto leading-relaxed">
+        <p className="text-xs sm:text-sm md:text-base text-[#656D76] dark:text-[#8B949E] max-w-lg mx-auto leading-relaxed pt-0.5">
           Handpicked cultural gatherings, live music, and creative summits.
         </p>
       </div>
 
-      {/* 1. MOBILE INTERACTIVE SWIPEABLE LIVE STACK (sm:hidden) — FILLS FULL SCREEN */}
-      <div className="sm:hidden relative z-20 flex-1 flex flex-col items-center justify-between py-2 max-w-sm mx-auto px-4 select-none w-full h-full">
-        {/* Generously Proportioned Stack Card Box */}
+      {/* 1. MOBILE INTERACTIVE SWIPEABLE LIVE STACK (sm:hidden) — FILLS FULL SCREEN & NEVER OVERFLOWS */}
+      <div className="sm:hidden relative z-20 flex-1 flex flex-col items-center justify-between py-2 max-w-full mx-auto px-4 select-none w-full h-full overflow-hidden">
+        {/* Compact Stack Box Safe From Right Overflow */}
         <div 
-          className="relative w-[75vw] max-w-[305px] min-w-[250px] h-[48vh] max-h-[430px] min-h-[340px] cursor-grab active:cursor-grabbing touch-pan-y my-auto"
+          className="relative w-[235px] xs:w-[255px] h-[345px] xs:h-[375px] cursor-grab active:cursor-grabbing touch-pan-y my-auto shrink-0"
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
@@ -211,16 +211,17 @@ export const Hero: React.FC<HeroProps> = () => {
 
             const isCurrent = diff === 0;
 
-            let translateX = diff * 24;
+            let translateX = diff * 12;
             let translateY = Math.abs(diff) * 8;
-            let rotate = diff * 4.5;
-            let scale = 1 - Math.abs(diff) * 0.08;
+            let rotate = diff * 3;
+            let scale = 1 - Math.abs(diff) * 0.07;
             let opacity = 1 - Math.abs(diff) * 0.22;
             let zIndex = 30 - Math.abs(diff) * 10;
 
             if (isCurrent) {
-              translateX += dragOffset;
-              rotate += dragOffset * 0.035;
+              const clampedDrag = Math.max(-100, Math.min(100, dragOffset));
+              translateX += clampedDrag;
+              rotate += clampedDrag * 0.03;
             }
 
             return (
@@ -248,30 +249,17 @@ export const Hero: React.FC<HeroProps> = () => {
                   className="w-full h-full object-cover select-none pointer-events-none"
                 />
                 <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-2xl pointer-events-none" />
-
-                {/* Event info pill overlay on current top card */}
-                {isCurrent && (
-                  <div className="absolute bottom-3 inset-x-3 p-2.5 rounded-xl bg-black/85 backdrop-blur-md text-white text-xs flex items-center justify-between border border-white/15 shadow-lg">
-                    <div className="truncate pr-2 text-left">
-                      <span className="font-bold block truncate text-xs">{card.event.title}</span>
-                      <span className="text-[10px] text-white/70 font-mono">{card.event.city} • {card.event.displayDate}</span>
-                    </div>
-                    <span className="shrink-0 text-[10px] font-semibold uppercase tracking-wider px-2 py-1 rounded-md bg-white text-black font-mono">
-                      View
-                    </span>
-                  </div>
-                )}
               </div>
             );
           })}
         </div>
 
         {/* Swipe Controls: Arrows + Dots + Scroll Cue */}
-        <div className="w-full flex flex-col items-center gap-2 pt-2 pb-1">
-          <div className="flex items-center justify-between w-full max-w-[270px] px-2">
+        <div className="w-full flex flex-col items-center gap-1.5 pt-2 pb-1">
+          <div className="flex items-center justify-between w-full max-w-[250px] px-2">
             <button
               onClick={() => setActiveMobileIndex((prev) => (prev - 1 + cards.length) % cards.length)}
-              className="p-2 rounded-full border border-[#D0D7DE] dark:border-[#30363D] bg-white dark:bg-[#161B22] text-[#656D76] dark:text-[#8B949E] hover:text-[#1F2328] dark:hover:text-white shadow-sm transition-colors active:scale-95"
+              className="p-1.5 rounded-full border border-[#D0D7DE] dark:border-[#30363D] bg-white dark:bg-[#161B22] text-[#656D76] dark:text-[#8B949E] hover:text-[#1F2328] dark:hover:text-white shadow-sm transition-colors active:scale-95"
               aria-label="Previous poster"
             >
               <ChevronLeft className="w-4 h-4" />
@@ -294,7 +282,7 @@ export const Hero: React.FC<HeroProps> = () => {
 
             <button
               onClick={() => setActiveMobileIndex((prev) => (prev + 1) % cards.length)}
-              className="p-2 rounded-full border border-[#D0D7DE] dark:border-[#30363D] bg-white dark:bg-[#161B22] text-[#656D76] dark:text-[#8B949E] hover:text-[#1F2328] dark:hover:text-white shadow-sm transition-colors active:scale-95"
+              className="p-1.5 rounded-full border border-[#D0D7DE] dark:border-[#30363D] bg-white dark:bg-[#161B22] text-[#656D76] dark:text-[#8B949E] hover:text-[#1F2328] dark:hover:text-white shadow-sm transition-colors active:scale-95"
               aria-label="Next poster"
             >
               <ChevronRight className="w-4 h-4" />

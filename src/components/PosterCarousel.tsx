@@ -66,7 +66,7 @@ export const PosterCarousel: React.FC = () => {
     <section 
       id="archive"
       ref={sectionRef} 
-      className="relative w-full bg-[#F6F8FA] dark:bg-[#0D1117] py-10 sm:py-14 overflow-hidden border-b border-[#D0D7DE] dark:border-[#30363D] transition-colors"
+      className="relative w-full max-w-full bg-[#F6F8FA] dark:bg-[#0D1117] py-10 sm:py-14 overflow-hidden border-b border-[#D0D7DE] dark:border-[#30363D] transition-colors"
     >
       
       {/* Background subtle radial ambient light */}

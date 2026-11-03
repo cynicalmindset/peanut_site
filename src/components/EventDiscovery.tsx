@@ -114,7 +114,7 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
   }, []);
 
   return (
-    <section id="discovery" className="relative w-full bg-[#F6F8FA] dark:bg-[#0D1117] text-[#1F2328] dark:text-white pt-14 sm:pt-20 pb-28 border-b border-[#D0D7DE] dark:border-[#30363D] transition-colors">
+    <section id="discovery" className="relative w-full max-w-full overflow-hidden bg-[#F6F8FA] dark:bg-[#0D1117] text-[#1F2328] dark:text-white pt-14 sm:pt-20 pb-28 border-b border-[#D0D7DE] dark:border-[#30363D] transition-colors">
       
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-14">
 
@@ -234,7 +234,7 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
             </div>
 
             {/* Horizontal Scroll Deck */}
-            <div className="flex gap-4 sm:gap-6 overflow-x-auto pb-4 scrollbar-none pt-2 -mx-4 px-4 sm:mx-0 sm:px-0 snap-x snap-mandatory">
+            <div className="flex gap-4 sm:gap-6 overflow-x-auto pb-4 scrollbar-none pt-2 px-1 snap-x snap-mandatory w-full max-w-full">
               {topHeadliners.map((event, index) => {
                 const registered = isRegistered(event.id);
                 const rank = index + 1;

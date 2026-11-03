@@ -16,9 +16,9 @@ export const App: React.FC = () => {
     <ThemeProvider>
       <RegistrationProvider>
         <BrowserRouter>
-          <div className="min-h-screen flex flex-col bg-paper-100 text-ink-900 dark:bg-paper-dark dark:text-neutral-100 transition-colors duration-200">
+          <div className="min-h-screen flex flex-col w-full max-w-full overflow-x-hidden bg-paper-100 text-ink-900 dark:bg-paper-dark dark:text-neutral-100 transition-colors duration-200">
             <Navbar />
-            <main className="flex-1">
+            <main className="flex-1 w-full max-w-full overflow-x-hidden">
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/event/:id" element={<EventDetailPage />} />
