@@ -21,7 +21,7 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
   const [selectedCategory, setSelectedCategory] = useState<EventCategory>('All');
   const [internalSearchQuery, setInternalSearchQuery] = useState('');
   const [selectedCity, setSelectedCity] = useState<string>('All');
-  const [selectedMonth, setSelectedMonth] = useState<string>('All');
+  const [selectedMonth, setSelectedMonth] = useState<string>('All Months');
 
   const searchQuery = externalSearchQuery !== undefined ? externalSearchQuery : internalSearchQuery;
   const setSearchQuery = (val: string) => {
@@ -113,13 +113,13 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
   }, []);
 
   return (
-    <section id="discovery" className="relative w-full bg-[#0D1117] text-white pt-14 sm:pt-20 pb-28 border-b border-[#30363D]">
+    <section id="discovery" className="relative w-full bg-[#F6F8FA] dark:bg-[#0D1117] text-[#1F2328] dark:text-white pt-14 sm:pt-20 pb-28 border-b border-[#D0D7DE] dark:border-[#30363D] transition-colors">
       
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-14">
 
-        {/* 1. TOP SEGMENTED PILL BAR (Apple iOS/macOS Clean Minimalist Segmented Control) */}
+        {/* 1. TOP SEGMENTED PILL BAR */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div id="categories-filter" className="inline-flex items-center p-1 rounded-full bg-[#161B22] border border-[#30363D]">
+          <div id="categories-filter" className="inline-flex items-center p-1 rounded-full bg-white dark:bg-[#161B22] border border-[#D0D7DE] dark:border-[#30363D] shadow-sm">
             {CATEGORIES_LIST.slice(0, 5).map(cat => {
               const active = selectedCategory === cat;
               return (
@@ -128,8 +128,8 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
                   onClick={() => setSelectedCategory(cat)}
                   className={`px-4 sm:px-5 py-1.5 text-xs sm:text-sm font-medium rounded-full transition-all duration-150 ${
                     active
-                      ? 'bg-white text-black font-semibold shadow-sm'
-                      : 'text-[#8B949E] hover:text-white'
+                      ? 'bg-[#1F2328] text-white dark:bg-white dark:text-black font-semibold shadow-sm'
+                      : 'text-[#656D76] dark:text-[#8B949E] hover:text-[#1F2328] dark:hover:text-white'
                   }`}
                 >
                   {cat === 'All' ? 'All Gatherings' : cat}
@@ -138,20 +138,20 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
             })}
           </div>
 
-          {/* Clean Apple Dark Search Input */}
+          {/* Clean Search Input */}
           <div className="relative w-full sm:w-72">
-            <Search className="w-4 h-4 text-[#8B949E] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <Search className="w-4 h-4 text-[#656D76] dark:text-[#8B949E] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
               type="text"
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               placeholder="Search artists, sound, cities..."
-              className="w-full h-10 pl-9 pr-8 bg-[#161B22] hover:bg-[#1C2128] focus:bg-[#1C2128] border border-[#30363D] focus:border-white/40 rounded-full text-xs text-white placeholder-[#8B949E] focus:outline-none transition-colors"
+              className="w-full h-10 pl-9 pr-8 bg-white dark:bg-[#161B22] hover:bg-[#F6F8FA] dark:hover:bg-[#1C2128] focus:bg-white dark:focus:bg-[#1C2128] border border-[#D0D7DE] dark:border-[#30363D] focus:border-[#0969DA] dark:focus:border-white/40 rounded-full text-xs text-[#1F2328] dark:text-white placeholder-[#656D76] dark:placeholder-[#8B949E] focus:outline-none transition-colors shadow-sm"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8B949E] hover:text-white"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#656D76] dark:text-[#8B949E] hover:text-[#1F2328] dark:hover:text-white"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -159,28 +159,28 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
           </div>
         </div>
 
-        {/* 2. REPLAY HEADER & MONTH TIMELINE (Clean, Apple-Style Header & Callout) */}
-        <div className="space-y-4 pt-2 border-b border-[#30363D] pb-7">
+        {/* 2. REPLAY HEADER & MONTH TIMELINE */}
+        <div className="space-y-4 pt-2 border-b border-[#D0D7DE] dark:border-[#30363D] pb-7">
           <div className="flex flex-wrap items-baseline justify-between gap-4">
             <div className="flex items-center gap-3">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#1F2328] dark:text-white">
                 Upcoming Gatherings
               </h2>
-              <span className="px-3 py-1 text-xs font-medium rounded-full bg-[#161B22] border border-[#30363D] text-[#8B949E]">
+              <span className="px-3 py-1 text-xs font-medium rounded-full bg-white dark:bg-[#161B22] border border-[#D0D7DE] dark:border-[#30363D] text-[#656D76] dark:text-[#8B949E] shadow-sm">
                 2026 ▾
               </span>
             </div>
 
             {/* City Location Filter */}
             <div className="flex items-center gap-2">
-              <span className="text-xs text-[#8B949E] font-mono">Location:</span>
+              <span className="text-xs text-[#656D76] dark:text-[#8B949E] font-mono">Location:</span>
               <select
                 value={selectedCity}
                 onChange={e => setSelectedCity(e.target.value)}
-                className="bg-[#161B22] border border-[#30363D] text-xs text-[#C9D1D9] rounded-full px-3 py-1.5 focus:outline-none focus:border-white/40 appearance-none cursor-pointer"
+                className="bg-white dark:bg-[#161B22] border border-[#D0D7DE] dark:border-[#30363D] text-xs text-[#1F2328] dark:text-[#C9D1D9] rounded-full px-3 py-1.5 focus:outline-none focus:border-[#0969DA] dark:focus:border-white/40 appearance-none cursor-pointer shadow-sm"
               >
                 {uniqueCities.map(city => (
-                  <option key={city} value={city} className="bg-[#161B22] text-white">
+                  <option key={city} value={city} className="bg-white dark:bg-[#161B22] text-[#1F2328] dark:text-white">
                     {city === 'All' ? 'All Cities' : city}
                   </option>
                 ))}
@@ -198,8 +198,8 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
                   onClick={() => setSelectedMonth(m)}
                   className={`text-xs sm:text-sm font-medium px-3.5 py-1.5 rounded-full transition-colors ${
                     active
-                      ? 'bg-white text-black font-semibold shadow-sm'
-                      : 'text-[#8B949E] hover:text-white hover:bg-white/[0.04]'
+                      ? 'bg-[#1F2328] text-white dark:bg-white dark:text-black font-semibold shadow-sm'
+                      : 'text-[#656D76] dark:text-[#8B949E] hover:text-[#1F2328] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/[0.04]'
                   }`}
                 >
                   {m}
@@ -208,26 +208,26 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
             })}
           </div>
 
-          {/* Apple Clean Typography Callout Stat — No Gradient */}
+          {/* Typography Callout Stat */}
           <div className="pt-2">
-            <p className="text-lg sm:text-2xl md:text-3xl font-medium text-[#8B949E]">
-              You have <span className="font-bold text-white">{filteredEvents.length} curated gatherings</span> lined up for{' '}
-              <span className="font-bold text-white underline decoration-[#30363D] underline-offset-4">
+            <p className="text-lg sm:text-2xl md:text-3xl font-medium text-[#656D76] dark:text-[#8B949E]">
+              You have <span className="font-bold text-[#1F2328] dark:text-white">{filteredEvents.length} curated gatherings</span> lined up for{' '}
+              <span className="font-bold text-[#1F2328] dark:text-white underline decoration-[#D0D7DE] dark:decoration-[#30363D] underline-offset-4">
                 Season 2026
               </span>.
             </p>
           </div>
         </div>
 
-        {/* 3. SECTION 1: TOP GATHERINGS (Apple Music "Your Top Artists >" Large Numbered Cards) */}
+        {/* 3. SECTION 1: TOP GATHERINGS */}
         {topHeadliners.length > 0 && (
           <div className="space-y-5">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-1.5 text-xl sm:text-2xl font-bold text-white">
+              <div className="flex items-center gap-1.5 text-xl sm:text-2xl font-bold text-[#1F2328] dark:text-white">
                 <span>Top Gatherings</span>
-                <ChevronRight className="w-5 h-5 text-[#8B949E]" />
+                <ChevronRight className="w-5 h-5 text-[#656D76] dark:text-[#8B949E]" />
               </div>
-              <span className="text-xs text-[#8B949E] font-mono">Ranked by resonance</span>
+              <span className="text-xs text-[#656D76] dark:text-[#8B949E] font-mono">Ranked by resonance</span>
             </div>
 
             {/* Horizontal Scroll Deck */}
@@ -239,7 +239,7 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
                   <div
                     key={event.id}
                     onClick={() => openRegistrationModal(event)}
-                    className="group relative shrink-0 w-[220px] sm:w-[260px] md:w-[280px] h-[320px] sm:h-[370px] md:h-[400px] rounded-[24px] sm:rounded-[28px] overflow-hidden bg-[#161B22] border border-[#30363D] hover:border-white/30 cursor-pointer shadow-xl transition-all duration-300 hover:-translate-y-1"
+                    className="group relative shrink-0 w-[220px] sm:w-[260px] md:w-[280px] h-[320px] sm:h-[370px] md:h-[400px] rounded-[24px] sm:rounded-[28px] overflow-hidden bg-white dark:bg-[#161B22] border border-[#D0D7DE] dark:border-[#30363D] hover:border-[#1F2328] dark:hover:border-white/30 cursor-pointer shadow-lg dark:shadow-xl transition-all duration-300 hover:-translate-y-1"
                   >
                     {/* Poster Artwork Image */}
                     <img
@@ -275,14 +275,14 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
                       <h3 className="text-base sm:text-lg font-bold text-white leading-snug line-clamp-2">
                         {event.title}
                       </h3>
-                      <p className="text-xs text-[#8B949E] font-medium flex items-center gap-2">
+                      <p className="text-xs text-white/70 font-medium flex items-center gap-2">
                         <span>{event.city}</span>
                         <span>•</span>
                         <span>{event.spotsRemaining} spots left</span>
                       </p>
                       <div className="pt-2 flex items-center justify-between text-xs font-mono text-white">
                         <span className="text-white font-semibold">{event.price}</span>
-                        <span className="text-[#8B949E] group-hover:text-white transition-colors">Reserve Pass →</span>
+                        <span className="text-white/70 group-hover:text-white transition-colors">Reserve Pass →</span>
                       </div>
                     </div>
                   </div>
@@ -292,19 +292,19 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
           </div>
         )}
 
-        {/* 4. SECTION 2: GATHERINGS DIRECTORY (Apple Music "Your Top Songs >" 2-Column Tracklist) */}
+        {/* 4. SECTION 2: GATHERINGS DIRECTORY */}
         <div className="space-y-5">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1.5 text-xl sm:text-2xl font-bold text-white">
+            <div className="flex items-center gap-1.5 text-xl sm:text-2xl font-bold text-[#1F2328] dark:text-white">
               <span>Gatherings Directory</span>
-              <ChevronRight className="w-5 h-5 text-[#8B949E]" />
+              <ChevronRight className="w-5 h-5 text-[#656D76] dark:text-[#8B949E]" />
             </div>
-            <span className="text-xs text-[#8B949E] font-mono">
+            <span className="text-xs text-[#656D76] dark:text-[#8B949E] font-mono">
               Showing {filteredEvents.length} of {events.length}
             </span>
           </div>
 
-          {/* 2-Column Apple Music Tracklist Rows */}
+          {/* 2-Column Tracklist Rows */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-2">
             {filteredEvents.map((event, index) => {
               const registered = isRegistered(event.id);
@@ -312,17 +312,17 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
               return (
                 <div
                   key={event.id}
-                  className="group flex items-center gap-3 sm:gap-4 p-2.5 sm:p-3 rounded-2xl hover:bg-[#161B22] transition-colors border border-transparent hover:border-[#30363D]"
+                  className="group flex items-center gap-3 sm:gap-4 p-2.5 sm:p-3 rounded-2xl hover:bg-white dark:hover:bg-[#161B22] transition-colors border border-transparent hover:border-[#D0D7DE] dark:hover:border-[#30363D] shadow-sm hover:shadow"
                 >
                   {/* Rank Number */}
-                  <span className="w-6 text-center text-sm font-bold text-[#8B949E] group-hover:text-white select-none shrink-0 font-mono">
+                  <span className="w-6 text-center text-sm font-bold text-[#656D76] dark:text-[#8B949E] group-hover:text-[#1F2328] dark:group-hover:text-white select-none shrink-0 font-mono">
                     {rank}
                   </span>
 
                   {/* Square Cover Poster Artwork */}
                   <div
                     onClick={() => openRegistrationModal(event)}
-                    className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-xl overflow-hidden shrink-0 cursor-pointer shadow-md bg-[#161B22] border border-[#30363D]"
+                    className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-xl overflow-hidden shrink-0 cursor-pointer shadow-sm bg-[#E1E4E8] dark:bg-[#161B22] border border-[#D0D7DE] dark:border-[#30363D]"
                   >
                     <img
                       src={getEventPoster(event, index)}
@@ -340,11 +340,11 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
                   <div className="flex-1 min-w-0">
                     <Link
                       to={`/event/${event.id}`}
-                      className="block text-sm font-semibold text-white group-hover:text-blue-400 transition-colors truncate"
+                      className="block text-sm font-semibold text-[#1F2328] dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate"
                     >
                       {event.title}
                     </Link>
-                    <div className="flex items-center gap-1.5 text-xs text-[#8B949E] truncate pt-0.5">
+                    <div className="flex items-center gap-1.5 text-xs text-[#656D76] dark:text-[#8B949E] truncate pt-0.5">
                       <span>{event.category}</span>
                       <span>•</span>
                       <span>{event.city}</span>
@@ -355,7 +355,7 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
 
                   {/* Price Tag & Action */}
                   <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-                    <span className="text-xs font-mono text-[#8B949E] hidden sm:inline-block">
+                    <span className="text-xs font-mono text-[#656D76] dark:text-[#8B949E] hidden sm:inline-block">
                       {event.price.split('/')[0]}
                     </span>
 
@@ -364,8 +364,8 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
                       onClick={() => openRegistrationModal(event)}
                       className={`px-3.5 py-1.5 text-xs font-medium rounded-full transition-all ${
                         registered
-                          ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30'
-                          : 'bg-[#161B22] hover:bg-white text-white hover:text-black border border-[#30363D]'
+                          ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25'
+                          : 'bg-white dark:bg-[#161B22] hover:bg-[#1F2328] hover:text-white dark:hover:bg-white dark:hover:text-black text-[#1F2328] dark:text-white border border-[#D0D7DE] dark:border-[#30363D] shadow-sm'
                       }`}
                     >
                       {registered ? 'Pass' : 'RSVP'}
@@ -374,7 +374,7 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
                     {/* Link to Details */}
                     <Link
                       to={`/event/${event.id}`}
-                      className="p-1.5 text-[#8B949E] hover:text-white rounded-full hover:bg-white/10 transition-colors"
+                      className="p-1.5 text-[#656D76] dark:text-[#8B949E] hover:text-[#1F2328] dark:hover:text-white rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
                       title="View gathering details"
                     >
                       <ArrowUpRight className="w-4 h-4" />
@@ -386,9 +386,9 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
           </div>
 
           {filteredEvents.length === 0 && (
-            <div className="text-center py-16 bg-[#161B22] rounded-3xl border border-[#30363D] space-y-3">
-              <p className="text-lg font-bold text-white">No gatherings found</p>
-              <p className="text-xs text-[#8B949E] max-w-sm mx-auto">
+            <div className="text-center py-16 bg-white dark:bg-[#161B22] rounded-3xl border border-[#D0D7DE] dark:border-[#30363D] space-y-3 shadow-sm">
+              <p className="text-lg font-bold text-[#1F2328] dark:text-white">No gatherings found</p>
+              <p className="text-xs text-[#656D76] dark:text-[#8B949E] max-w-sm mx-auto">
                 No gatherings match your selected criteria. Try resetting filters to explore all sessions.
               </p>
               <button
@@ -398,7 +398,7 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
                   setSelectedMonth('All Months');
                   setSearchQuery('');
                 }}
-                className="mt-2 px-5 py-2 text-xs font-semibold rounded-full bg-white text-black hover:bg-white/90"
+                className="mt-2 px-5 py-2 text-xs font-semibold rounded-full bg-[#1F2328] dark:bg-white text-white dark:text-black hover:opacity-90"
               >
                 Reset all filters
               </button>
@@ -406,14 +406,14 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
           )}
         </div>
 
-        {/* 5. SECTION 3: CURATED COLLECTIVES (Apple Music "Your Top Albums >" Square Covers) */}
+        {/* 5. SECTION 3: CURATED COLLECTIVES */}
         <div className="space-y-5 pt-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1.5 text-xl sm:text-2xl font-bold text-white">
+            <div className="flex items-center gap-1.5 text-xl sm:text-2xl font-bold text-[#1F2328] dark:text-white">
               <span>Curated Collectives & Series</span>
-              <ChevronRight className="w-5 h-5 text-[#8B949E]" />
+              <ChevronRight className="w-5 h-5 text-[#656D76] dark:text-[#8B949E]" />
             </div>
-            <span className="text-xs text-[#8B949E] font-mono">Guilds & residencies</span>
+            <span className="text-xs text-[#656D76] dark:text-[#8B949E] font-mono">Guilds & residencies</span>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 sm:gap-6">
@@ -424,7 +424,7 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
                 onClick={() => setSelectedCategory('All')}
               >
                 {/* Square Album Cover */}
-                <div className="relative aspect-square rounded-2xl overflow-hidden bg-[#161B22] border border-[#30363D] group-hover:border-white/30 shadow-lg transition-all duration-300 group-hover:-translate-y-1">
+                <div className="relative aspect-square rounded-2xl overflow-hidden bg-white dark:bg-[#161B22] border border-[#D0D7DE] dark:border-[#30363D] group-hover:border-[#1F2328] dark:group-hover:border-white/30 shadow-md group-hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1">
                   <img
                     src={coll.image}
                     alt={coll.name}
@@ -443,10 +443,10 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
 
                 {/* Caption */}
                 <div className="space-y-0.5 px-0.5">
-                  <h4 className="text-xs sm:text-sm font-bold text-white group-hover:text-blue-400 transition-colors truncate">
+                  <h4 className="text-xs sm:text-sm font-bold text-[#1F2328] dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
                     {coll.name}
                   </h4>
-                  <p className="text-[11px] text-[#8B949E] truncate">
+                  <p className="text-[11px] text-[#656D76] dark:text-[#8B949E] truncate">
                     {coll.curator}
                   </p>
                 </div>

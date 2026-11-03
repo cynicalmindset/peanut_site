@@ -159,21 +159,21 @@ export const RegistrationModal: React.FC = () => {
       aria-labelledby="modal-headline"
     >
       <div 
-        className="relative w-full max-w-xl bg-[#0D1117] border border-[#30363D] shadow-2xl rounded-2xl overflow-hidden my-8 ring-1 ring-white/10"
+        className="relative w-full max-w-xl bg-white dark:bg-[#0D1117] border border-[#D0D7DE] dark:border-[#30363D] shadow-2xl rounded-2xl overflow-hidden my-8 ring-1 ring-black/5 dark:ring-white/10 transition-colors"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#30363D] bg-[#161B22]">
-          <div className="flex items-center gap-2 text-xs text-[#8B949E] font-mono tracking-wider">
-            <Ticket className="w-4 h-4 text-white" />
-            <span className="uppercase font-semibold text-white/90">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#D0D7DE] dark:border-[#30363D] bg-[#F6F8FA] dark:bg-[#161B22] transition-colors">
+          <div className="flex items-center gap-2 text-xs font-mono tracking-wider">
+            <Ticket className="w-4 h-4 text-[#1F2328] dark:text-white" />
+            <span className="uppercase font-semibold text-[#1F2328] dark:text-white">
               {confirmedRecord ? 'Registration Confirmed' : 'Reserve Admission Spot'}
             </span>
           </div>
 
           <button
             onClick={closeRegistrationModal}
-            className="p-1.5 text-[#8B949E] hover:text-white rounded-full hover:bg-white/10 transition-colors"
+            className="p-1.5 text-[#656D76] dark:text-[#8B949E] hover:text-[#1F2328] dark:hover:text-white rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
             aria-label="Close dialog"
           >
             <X className="w-4 h-4" />
@@ -181,28 +181,28 @@ export const RegistrationModal: React.FC = () => {
         </div>
 
         {/* Selected Event Context Banner */}
-        <div className="p-5 sm:p-6 bg-[#161B22]/60 border-b border-[#30363D]">
+        <div className="p-5 sm:p-6 bg-[#F6F8FA]/60 dark:bg-[#161B22]/60 border-b border-[#D0D7DE] dark:border-[#30363D] transition-colors">
           <div className="flex gap-4 items-center">
             <img
               src={activeModalEvent.image}
               alt={activeModalEvent.title}
-              className="w-20 sm:w-24 h-20 sm:h-24 object-cover rounded-xl border border-[#30363D] shrink-0 shadow-md bg-[#0D1117]"
+              className="w-20 sm:w-24 h-20 sm:h-24 object-cover rounded-xl border border-[#D0D7DE] dark:border-[#30363D] shrink-0 shadow-md bg-white dark:bg-[#0D1117]"
             />
             <div className="space-y-1.5 min-w-0">
-              <span className="inline-block px-2.5 py-0.5 rounded-full bg-white/10 border border-white/10 text-white/80 text-[11px] font-medium">
+              <span className="inline-block px-2.5 py-0.5 rounded-full bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/10 text-[#1F2328] dark:text-white/80 text-[11px] font-medium">
                 {activeModalEvent.category} • {activeModalEvent.city}
               </span>
-              <h2 id="modal-headline" className="text-base sm:text-lg font-bold text-white leading-snug line-clamp-2">
+              <h2 id="modal-headline" className="text-base sm:text-lg font-bold text-[#1F2328] dark:text-white leading-snug line-clamp-2">
                 {activeModalEvent.title}
               </h2>
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-[#8B949E]">
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-[#656D76] dark:text-[#8B949E]">
                 <span className="flex items-center gap-1">
-                  <Calendar className="w-3.5 h-3.5 text-white/60" />
+                  <Calendar className="w-3.5 h-3.5 text-[#1F2328]/60 dark:text-white/60" />
                   {activeModalEvent.displayDate}
                 </span>
                 <span>•</span>
                 <span className="flex items-center gap-1 truncate">
-                  <MapPin className="w-3.5 h-3.5 text-white/60" />
+                  <MapPin className="w-3.5 h-3.5 text-[#1F2328]/60 dark:text-white/60" />
                   {activeModalEvent.venue}
                 </span>
               </div>
@@ -215,59 +215,59 @@ export const RegistrationModal: React.FC = () => {
           /* Confirmation Success State */
           <div className="p-6 sm:p-8 space-y-6">
             
-            <div className="flex items-center gap-3 p-4 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-emerald-200">
-              <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+            <div className="flex items-center gap-3 p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-500/30 text-emerald-800 dark:text-emerald-200">
+              <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" />
               <div className="text-xs sm:text-sm">
-                <strong className="font-semibold block text-white text-xs uppercase tracking-wide">Pass Reserved Successfully</strong>
+                <strong className="font-semibold block text-emerald-900 dark:text-white text-xs uppercase tracking-wide">Pass Reserved Successfully</strong>
                 Your entry pass is preserved locally in your browser. Present this reference code at admission.
               </div>
             </div>
 
             {/* Ticket Pass Specimen Card */}
-            <div className="relative border border-[#30363D] bg-[#161B22] p-5 sm:p-6 rounded-2xl space-y-4 shadow-lg">
-              <div className="flex justify-between items-start border-b border-[#30363D] pb-3">
+            <div className="relative border border-[#D0D7DE] dark:border-[#30363D] bg-[#F6F8FA] dark:bg-[#161B22] p-5 sm:p-6 rounded-2xl space-y-4 shadow-lg transition-colors">
+              <div className="flex justify-between items-start border-b border-[#D0D7DE] dark:border-[#30363D] pb-3">
                 <div>
-                  <span className="text-[10px] text-[#8B949E] uppercase tracking-wider block font-mono">PASS REFERENCE</span>
-                  <span className="text-lg font-bold text-white tracking-wider font-mono">
+                  <span className="text-[10px] text-[#656D76] dark:text-[#8B949E] uppercase tracking-wider block font-mono">PASS REFERENCE</span>
+                  <span className="text-lg font-bold text-[#1F2328] dark:text-white tracking-wider font-mono">
                     {confirmedRecord.referenceCode}
                   </span>
                 </div>
                 <div className="text-right">
-                  <span className="text-[10px] text-[#8B949E] uppercase tracking-wider block font-mono">ADMISSION</span>
-                  <span className="text-white font-medium text-xs">General Entry × {confirmedRecord.ticketCount}</span>
+                  <span className="text-[10px] text-[#656D76] dark:text-[#8B949E] uppercase tracking-wider block font-mono">ADMISSION</span>
+                  <span className="text-[#1F2328] dark:text-white font-medium text-xs">General Entry × {confirmedRecord.ticketCount}</span>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                 <div>
-                  <span className="text-[10px] text-[#8B949E] block font-mono">ATTENDEE</span>
-                  <span className="text-sm font-semibold text-white">{confirmedRecord.fullName}</span>
+                  <span className="text-[10px] text-[#656D76] dark:text-[#8B949E] block font-mono">ATTENDEE</span>
+                  <span className="text-sm font-semibold text-[#1F2328] dark:text-white">{confirmedRecord.fullName}</span>
                 </div>
                 <div>
-                  <span className="text-[10px] text-[#8B949E] block font-mono">CONTACT EMAIL</span>
-                  <span className="text-white/80 truncate block">{confirmedRecord.email}</span>
+                  <span className="text-[10px] text-[#656D76] dark:text-[#8B949E] block font-mono">CONTACT EMAIL</span>
+                  <span className="text-[#1F2328]/80 dark:text-white/80 truncate block">{confirmedRecord.email}</span>
                 </div>
                 <div>
-                  <span className="text-[10px] text-[#8B949E] block font-mono">DATE & TIME</span>
-                  <span className="text-white/90">{confirmedRecord.eventDate}</span>
+                  <span className="text-[10px] text-[#656D76] dark:text-[#8B949E] block font-mono">DATE & TIME</span>
+                  <span className="text-[#1F2328] dark:text-white/90">{confirmedRecord.eventDate}</span>
                 </div>
                 <div>
-                  <span className="text-[10px] text-[#8B949E] block font-mono">VENUE & CITY</span>
-                  <span className="text-white/90">{confirmedRecord.eventVenue}, {confirmedRecord.eventCity}</span>
+                  <span className="text-[10px] text-[#656D76] dark:text-[#8B949E] block font-mono">VENUE & CITY</span>
+                  <span className="text-[#1F2328] dark:text-white/90">{confirmedRecord.eventVenue}, {confirmedRecord.eventCity}</span>
                 </div>
               </div>
 
               {/* Barcode Graphic Pattern */}
-              <div className="pt-3 border-t border-[#30363D] flex flex-col items-center justify-center space-y-1.5 opacity-80">
+              <div className="pt-3 border-t border-[#D0D7DE] dark:border-[#30363D] flex flex-col items-center justify-center space-y-1.5 opacity-80">
                 <div className="flex gap-1 h-7 items-stretch">
                   {Array.from({ length: 32 }).map((_, i) => (
                     <div 
                       key={i} 
-                      className={`bg-white rounded-full ${i % 3 === 0 ? 'w-1' : i % 5 === 0 ? 'w-1.5' : 'w-0.5'}`} 
+                      className={`bg-[#1F2328] dark:bg-white rounded-full ${i % 3 === 0 ? 'w-1' : i % 5 === 0 ? 'w-1.5' : 'w-0.5'}`} 
                     />
                   ))}
                 </div>
-                <span className="text-[9px] tracking-widest text-[#8B949E] uppercase font-mono">
+                <span className="text-[9px] tracking-widest text-[#656D76] dark:text-[#8B949E] uppercase font-mono">
                   VERIFIED LOCAL PASS • ATMOSPHERE
                 </span>
               </div>
@@ -277,9 +277,9 @@ export const RegistrationModal: React.FC = () => {
             <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
               <button
                 onClick={() => downloadCalendarFile(confirmedRecord)}
-                className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#161B22] border border-[#30363D] text-xs font-medium text-white hover:border-white/40 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-[#161B22] border border-[#D0D7DE] dark:border-[#30363D] text-xs font-medium text-[#1F2328] dark:text-white hover:border-[#1F2328]/40 dark:hover:border-white/40 transition-colors shadow-sm"
               >
-                <Download className="w-3.5 h-3.5 text-white/70" />
+                <Download className="w-3.5 h-3.5 text-[#656D76] dark:text-white/70" />
                 <span>Add to Calendar (.ics)</span>
               </button>
 
@@ -289,14 +289,14 @@ export const RegistrationModal: React.FC = () => {
                     closeRegistrationModal();
                     openPassesDrawer();
                   }}
-                  className="px-4 py-2 rounded-full bg-white/10 text-white text-xs font-medium hover:bg-white/20 transition-colors"
+                  className="px-4 py-2 rounded-full bg-black/5 dark:bg-white/10 text-[#1F2328] dark:text-white text-xs font-medium hover:bg-black/10 dark:hover:bg-white/20 transition-colors"
                 >
                   View All Passes
                 </button>
 
                 <button
                   onClick={closeRegistrationModal}
-                  className="px-5 py-2 rounded-full bg-white text-black text-xs font-semibold hover:bg-white/90 transition-colors"
+                  className="px-5 py-2 rounded-full bg-[#1F2328] hover:bg-[#2D333B] text-white dark:bg-white dark:text-black dark:hover:bg-white/90 text-xs font-semibold transition-colors shadow-sm"
                 >
                   Done
                 </button>
@@ -312,9 +312,9 @@ export const RegistrationModal: React.FC = () => {
             <div className="space-y-1.5">
               <label 
                 htmlFor="reg-fullname" 
-                className="block text-[11px] uppercase tracking-wider font-semibold text-[#8B949E] font-mono"
+                className="block text-[11px] uppercase tracking-wider font-semibold text-[#656D76] dark:text-[#8B949E] font-mono"
               >
-                Full Name <span className="text-rose-400">*</span>
+                Full Name <span className="text-rose-500">*</span>
               </label>
               <input
                 id="reg-fullname"
@@ -325,15 +325,15 @@ export const RegistrationModal: React.FC = () => {
                   if (errors.fullName) setErrors(prev => ({ ...prev, fullName: undefined }));
                 }}
                 placeholder="e.g. Maya Shankar"
-                className={`w-full px-4 py-2.5 bg-[#161B22] border text-sm text-white rounded-xl placeholder-[#8B949E] focus:outline-none transition-colors ${
+                className={`w-full px-4 py-2.5 bg-[#F6F8FA] dark:bg-[#161B22] border text-sm text-[#1F2328] dark:text-white rounded-xl placeholder-[#8C959F] dark:placeholder-[#8B949E] focus:outline-none focus:bg-white dark:focus:bg-[#161B22] transition-colors shadow-sm ${
                   errors.fullName 
-                    ? 'border-rose-400 focus:border-rose-400' 
-                    : 'border-[#30363D] focus:border-white/50'
+                    ? 'border-rose-500 focus:border-rose-500' 
+                    : 'border-[#D0D7DE] dark:border-[#30363D] focus:border-[#1F2328] dark:focus:border-white/50'
                 }`}
                 aria-required="true"
               />
               {errors.fullName && (
-                <p className="flex items-center gap-1 text-xs text-rose-400 mt-1">
+                <p className="flex items-center gap-1 text-xs text-rose-500 mt-1">
                   <AlertCircle className="w-3.5 h-3.5" />
                   {errors.fullName}
                 </p>
@@ -344,9 +344,9 @@ export const RegistrationModal: React.FC = () => {
             <div className="space-y-1.5">
               <label 
                 htmlFor="reg-email" 
-                className="block text-[11px] uppercase tracking-wider font-semibold text-[#8B949E] font-mono"
+                className="block text-[11px] uppercase tracking-wider font-semibold text-[#656D76] dark:text-[#8B949E] font-mono"
               >
-                Email Address <span className="text-rose-400">*</span>
+                Email Address <span className="text-rose-500">*</span>
               </label>
               <input
                 id="reg-email"
@@ -357,15 +357,15 @@ export const RegistrationModal: React.FC = () => {
                   if (errors.email) setErrors(prev => ({ ...prev, email: undefined }));
                 }}
                 placeholder="maya@example.com"
-                className={`w-full px-4 py-2.5 bg-[#161B22] border text-sm text-white rounded-xl placeholder-[#8B949E] focus:outline-none transition-colors ${
+                className={`w-full px-4 py-2.5 bg-[#F6F8FA] dark:bg-[#161B22] border text-sm text-[#1F2328] dark:text-white rounded-xl placeholder-[#8C959F] dark:placeholder-[#8B949E] focus:outline-none focus:bg-white dark:focus:bg-[#161B22] transition-colors shadow-sm ${
                   errors.email 
-                    ? 'border-rose-400 focus:border-rose-400' 
-                    : 'border-[#30363D] focus:border-white/50'
+                    ? 'border-rose-500 focus:border-rose-500' 
+                    : 'border-[#D0D7DE] dark:border-[#30363D] focus:border-[#1F2328] dark:focus:border-white/50'
                 }`}
                 aria-required="true"
               />
               {errors.email && (
-                <p className="flex items-center gap-1 text-xs text-rose-400 mt-1">
+                <p className="flex items-center gap-1 text-xs text-rose-500 mt-1">
                   <AlertCircle className="w-3.5 h-3.5" />
                   {errors.email}
                 </p>
@@ -378,9 +378,9 @@ export const RegistrationModal: React.FC = () => {
               <div className="space-y-1.5">
                 <label 
                   htmlFor="reg-phone" 
-                  className="block text-[11px] uppercase tracking-wider font-semibold text-[#8B949E] font-mono"
+                  className="block text-[11px] uppercase tracking-wider font-semibold text-[#656D76] dark:text-[#8B949E] font-mono"
                 >
-                  Phone Number <span className="text-rose-400">*</span>
+                  Phone Number <span className="text-rose-500">*</span>
                 </label>
                 <input
                   id="reg-phone"
@@ -391,15 +391,15 @@ export const RegistrationModal: React.FC = () => {
                     if (errors.phone) setErrors(prev => ({ ...prev, phone: undefined }));
                   }}
                   placeholder="+91 98765 43210"
-                  className={`w-full px-4 py-2.5 bg-[#161B22] border text-sm text-white rounded-xl placeholder-[#8B949E] focus:outline-none transition-colors ${
+                  className={`w-full px-4 py-2.5 bg-[#F6F8FA] dark:bg-[#161B22] border text-sm text-[#1F2328] dark:text-white rounded-xl placeholder-[#8C959F] dark:placeholder-[#8B949E] focus:outline-none focus:bg-white dark:focus:bg-[#161B22] transition-colors shadow-sm ${
                     errors.phone 
-                      ? 'border-rose-400 focus:border-rose-400' 
-                      : 'border-[#30363D] focus:border-white/50'
+                      ? 'border-rose-500 focus:border-rose-500' 
+                      : 'border-[#D0D7DE] dark:border-[#30363D] focus:border-[#1F2328] dark:focus:border-white/50'
                   }`}
                   aria-required="true"
                 />
                 {errors.phone && (
-                  <p className="flex items-center gap-1 text-xs text-rose-400 mt-1">
+                  <p className="flex items-center gap-1 text-xs text-rose-500 mt-1">
                     <AlertCircle className="w-3.5 h-3.5" />
                     {errors.phone}
                   </p>
@@ -409,7 +409,7 @@ export const RegistrationModal: React.FC = () => {
               <div className="space-y-1.5">
                 <label 
                   htmlFor="reg-tickets" 
-                  className="block text-[11px] uppercase tracking-wider font-semibold text-[#8B949E] font-mono"
+                  className="block text-[11px] uppercase tracking-wider font-semibold text-[#656D76] dark:text-[#8B949E] font-mono"
                 >
                   Number of Passes
                 </label>
@@ -417,12 +417,12 @@ export const RegistrationModal: React.FC = () => {
                   id="reg-tickets"
                   value={ticketCount}
                   onChange={e => setTicketCount(Number(e.target.value))}
-                  className="w-full px-4 py-2.5 bg-[#161B22] border border-[#30363D] text-sm text-white rounded-xl focus:outline-none focus:border-white/50 appearance-none cursor-pointer"
+                  className="w-full px-4 py-2.5 bg-[#F6F8FA] dark:bg-[#161B22] border border-[#D0D7DE] dark:border-[#30363D] text-sm text-[#1F2328] dark:text-white rounded-xl focus:outline-none focus:bg-white dark:focus:bg-[#161B22] focus:border-[#1F2328] dark:focus:border-white/50 appearance-none cursor-pointer shadow-sm transition-colors"
                 >
-                  <option value={1} className="bg-[#161B22] text-white">1 Pass (Solo Attendee)</option>
-                  <option value={2} className="bg-[#161B22] text-white">2 Passes (Pair)</option>
-                  <option value={3} className="bg-[#161B22] text-white">3 Passes</option>
-                  <option value={4} className="bg-[#161B22] text-white">4 Passes (Small Group)</option>
+                  <option value={1} className="bg-white dark:bg-[#161B22] text-[#1F2328] dark:text-white">1 Pass (Solo Attendee)</option>
+                  <option value={2} className="bg-white dark:bg-[#161B22] text-[#1F2328] dark:text-white">2 Passes (Pair)</option>
+                  <option value={3} className="bg-white dark:bg-[#161B22] text-[#1F2328] dark:text-white">3 Passes</option>
+                  <option value={4} className="bg-white dark:bg-[#161B22] text-[#1F2328] dark:text-white">4 Passes (Small Group)</option>
                 </select>
               </div>
 
@@ -432,7 +432,7 @@ export const RegistrationModal: React.FC = () => {
             <div className="space-y-1.5">
               <label 
                 htmlFor="reg-notes" 
-                className="block text-[11px] uppercase tracking-wider text-[#8B949E] font-mono"
+                className="block text-[11px] uppercase tracking-wider text-[#656D76] dark:text-[#8B949E] font-mono"
               >
                 Special Requirements or Notes <span className="lowercase font-normal text-[10px]">(optional)</span>
               </label>
@@ -442,26 +442,26 @@ export const RegistrationModal: React.FC = () => {
                 onChange={e => setNotes(e.target.value)}
                 rows={2}
                 placeholder="Accessibility needs, dietary preferences, or sound sensitivity notes..."
-                className="w-full px-4 py-2 bg-[#161B22] border border-[#30363D] text-sm text-white rounded-xl placeholder-[#8B949E] focus:outline-none focus:border-white/50"
+                className="w-full px-4 py-2 bg-[#F6F8FA] dark:bg-[#161B22] border border-[#D0D7DE] dark:border-[#30363D] text-sm text-[#1F2328] dark:text-white rounded-xl placeholder-[#8C959F] dark:placeholder-[#8B949E] focus:outline-none focus:bg-white dark:focus:bg-[#161B22] focus:border-[#1F2328] dark:focus:border-white/50 transition-colors shadow-sm"
               />
             </div>
 
             {/* Transparent Local Storage Disclaimer */}
-            <div className="p-3 rounded-xl bg-[#161B22] border border-[#30363D] text-xs text-[#8B949E] flex items-start gap-2.5">
-              <AlertCircle className="w-4 h-4 text-white/60 shrink-0 mt-0.5" />
+            <div className="p-3 rounded-xl bg-[#F6F8FA] dark:bg-[#161B22] border border-[#D0D7DE] dark:border-[#30363D] text-xs text-[#656D76] dark:text-[#8B949E] flex items-start gap-2.5 transition-colors">
+              <AlertCircle className="w-4 h-4 text-[#656D76] dark:text-white/60 shrink-0 mt-0.5" />
               <span>
-                <strong className="text-white font-medium">Client-Side Only:</strong> No external server tracking. Passes are 
+                <strong className="text-[#1F2328] dark:text-white font-medium">Client-Side Only:</strong> No external server tracking. Passes are 
                 stored exclusively in your local browser cache for your personal itinerary.
               </span>
             </div>
 
             {/* Form Actions */}
-            <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#30363D]">
+            <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#D0D7DE] dark:border-[#30363D]">
               <button
                 type="button"
                 onClick={closeRegistrationModal}
                 disabled={isSubmitting}
-                className="px-4 py-2 text-xs font-semibold text-[#8B949E] hover:text-white transition-colors"
+                className="px-4 py-2 text-xs font-semibold text-[#656D76] dark:text-[#8B949E] hover:text-[#1F2328] dark:hover:text-white transition-colors"
               >
                 Cancel
               </button>
@@ -469,7 +469,7 @@ export const RegistrationModal: React.FC = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full bg-white hover:bg-white/90 text-black text-xs font-semibold transition-all active:scale-95 disabled:opacity-50 shadow-md"
+                className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full bg-[#1F2328] hover:bg-[#2D333B] text-white dark:bg-white dark:text-black dark:hover:bg-white/90 text-xs font-semibold transition-all active:scale-95 disabled:opacity-50 shadow-md"
               >
                 {isSubmitting ? (
                   <>

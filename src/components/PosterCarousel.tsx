@@ -66,18 +66,18 @@ export const PosterCarousel: React.FC = () => {
     <section 
       id="archive"
       ref={sectionRef} 
-      className="relative w-full bg-[#0D1117] py-10 sm:py-14 overflow-hidden border-b border-[#30363D]"
+      className="relative w-full bg-[#F6F8FA] dark:bg-[#0D1117] py-10 sm:py-14 overflow-hidden border-b border-[#D0D7DE] dark:border-[#30363D] transition-colors"
     >
       
       {/* Background subtle radial ambient light */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[250px] bg-white/[0.02] blur-[120px] pointer-events-none rounded-full" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[250px] bg-black/[0.02] dark:bg-white/[0.02] blur-[120px] pointer-events-none rounded-full" />
 
       {/* Compact Section Header */}
       <div className="relative z-10 max-w-3xl mx-auto px-4 text-center mb-6 sm:mb-8 space-y-1.5">
-        <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white font-sans">
+        <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-[#1F2328] dark:text-white font-sans">
           Past Gatherings & Archive
         </h2>
-        <p className="text-xs text-[#8B949E] max-w-sm mx-auto">
+        <p className="text-xs text-[#656D76] dark:text-[#8B949E] max-w-sm mx-auto">
           Scroll through visual dispatches, collector prints, and memories from our previous gatherings.
         </p>
       </div>
@@ -86,8 +86,8 @@ export const PosterCarousel: React.FC = () => {
       <div className="relative w-full space-y-3 sm:space-y-4 overflow-hidden">
         
         {/* Left and Right Edge Vignette Fades */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-20 sm:w-40 bg-gradient-to-r from-[#0D1117] via-[#0D1117]/90 to-transparent z-20" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-20 sm:w-40 bg-gradient-to-l from-[#0D1117] via-[#0D1117]/90 to-transparent z-20" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-20 sm:w-40 bg-gradient-to-r from-[#F6F8FA] dark:from-[#0D1117] via-[#F6F8FA]/90 dark:via-[#0D1117]/90 to-transparent z-20" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-20 sm:w-40 bg-gradient-to-l from-[#F6F8FA] dark:from-[#0D1117] via-[#F6F8FA]/90 dark:via-[#0D1117]/90 to-transparent z-20" />
 
         {/* Row 1: Smooth Infinite Scrolling Animation moving LEFT + Scroll Parallax */}
         <div 
@@ -99,7 +99,7 @@ export const PosterCarousel: React.FC = () => {
               <div
                 key={`r1-${index}`}
                 onClick={() => openRegistrationModal(item.event)}
-                className="group relative shrink-0 w-24 sm:w-32 md:w-36 h-32 sm:h-44 md:h-48 rounded-xl sm:rounded-2xl overflow-hidden cursor-pointer border border-[#30363D] hover:border-white/60 bg-[#161B22] shadow-md select-none transition-transform duration-200 hover:scale-[1.03]"
+                className="group relative shrink-0 w-24 sm:w-32 md:w-36 h-32 sm:h-44 md:h-48 rounded-xl sm:rounded-2xl overflow-hidden cursor-pointer border border-[#D0D7DE] dark:border-[#30363D] hover:border-[#1F2328] dark:hover:border-white/60 bg-white dark:bg-[#161B22] shadow-sm dark:shadow-md select-none transition-transform duration-200 hover:scale-[1.03]"
                 title={`View ${item.event.title}`}
               >
                 <img
@@ -108,7 +108,7 @@ export const PosterCarousel: React.FC = () => {
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ease-out pointer-events-none"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-xl sm:rounded-2xl pointer-events-none" />
+                <div className="absolute inset-0 ring-1 ring-inset ring-black/5 dark:ring-white/10 rounded-xl sm:rounded-2xl pointer-events-none" />
               </div>
             ))}
           </div>
@@ -124,7 +124,7 @@ export const PosterCarousel: React.FC = () => {
               <div
                 key={`r2-${index}`}
                 onClick={() => openRegistrationModal(item.event)}
-                className="group relative shrink-0 w-24 sm:w-32 md:w-36 h-32 sm:h-44 md:h-48 rounded-xl sm:rounded-2xl overflow-hidden cursor-pointer border border-[#30363D] hover:border-white/60 bg-[#161B22] shadow-md select-none transition-transform duration-200 hover:scale-[1.03]"
+                className="group relative shrink-0 w-24 sm:w-32 md:w-36 h-32 sm:h-44 md:h-48 rounded-xl sm:rounded-2xl overflow-hidden cursor-pointer border border-[#D0D7DE] dark:border-[#30363D] hover:border-[#1F2328] dark:hover:border-white/60 bg-white dark:bg-[#161B22] shadow-sm dark:shadow-md select-none transition-transform duration-200 hover:scale-[1.03]"
                 title={`View ${item.event.title}`}
               >
                 <img
@@ -133,7 +133,7 @@ export const PosterCarousel: React.FC = () => {
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ease-out pointer-events-none"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-xl sm:rounded-2xl pointer-events-none" />
+                <div className="absolute inset-0 ring-1 ring-inset ring-black/5 dark:ring-white/10 rounded-xl sm:rounded-2xl pointer-events-none" />
               </div>
             ))}
           </div>
