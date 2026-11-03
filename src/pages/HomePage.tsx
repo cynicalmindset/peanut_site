@@ -1,45 +1,64 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+import { useSearchParams, useLocation } from 'react-router-dom';
 import { Hero } from '../components/Hero';
 import { EventDiscovery } from '../components/EventDiscovery';
+import { PosterCarousel } from '../components/PosterCarousel';
+import { OffersSection } from '../components/OffersSection';
 import { EVENTS_DATA } from '../data/events';
 
 export const HomePage: React.FC = () => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
+  const searchQuery = searchParams.get('q') || '';
+
+  const setSearchQuery = (q: string) => {
+    setSearchParams(prev => {
+      const next = new URLSearchParams(prev);
+      if (q.trim()) {
+        next.set('q', q);
+      } else {
+        next.delete('q');
+      }
+      return next;
+    }, { replace: true });
+  };
 
   const handleExploreClick = () => {
-    const el = document.getElementById('discovery-section');
+    const el = document.getElementById('discovery');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
-  const handleFeaturedClick = () => {
-    const el = document.getElementById('centerpiece-event') || document.getElementById('discovery-section');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace('#', '');
+      const el = document.getElementById(id);
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }, 80);
+      }
     }
-  };
-
-  const handleSearchSubmit = (query: string) => {
-    setSearchQuery(query);
-    const el = document.getElementById('discovery-section');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  }, [location.hash]);
 
   return (
     <div>
-      <Hero 
-        onExploreClick={handleExploreClick} 
-        onFeaturedClick={handleFeaturedClick}
-        onSearchSubmit={handleSearchSubmit}
-      />
+      {/* 1. Hero Section */}
+      <Hero onExploreClick={handleExploreClick} />
+
+      {/* 2. Upcoming Gatherings Directory & Filters */}
       <EventDiscovery 
         events={EVENTS_DATA}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
       />
+
+      {/* 3. Past Gatherings & Archive Poster Marquee */}
+      <PosterCarousel />
+
+      {/* 4. Coupons & Special Offers */}
+      <OffersSection />
     </div>
   );
 };

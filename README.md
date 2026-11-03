@@ -1,3 +1,5 @@
+# peanut_site
+
 # atmosphere — Curated Event Discovery Platform
 
 [![React](https://img.shields.io/badge/React-18.3-61DAFB?logo=react&logoColor=black)](https://react.dev/)

@@ -1,8 +1,9 @@
 import React, { useState, useMemo } from 'react';
-import { Search, X, SlidersHorizontal, RotateCcw } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Search, X, ChevronRight, CheckCircle2, ArrowUpRight } from 'lucide-react';
 import { EventItem, EventCategory } from '../types/event';
 import { CATEGORIES_LIST } from '../data/events';
-import { EventCard } from './EventCard';
+import { useRegistration } from '../context/RegistrationContext';
 
 interface EventDiscoveryProps {
   events: EventItem[];
@@ -10,17 +11,17 @@ interface EventDiscoveryProps {
   onSearchChange?: (q: string) => void;
 }
 
-type SortOption = 'date-asc' | 'date-desc' | 'spots-asc' | 'title-asc';
-
-export const EventDiscovery: React.FC<EventDiscoveryProps> = ({ 
+export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
   events,
   searchQuery: externalSearchQuery,
-  onSearchChange
+  onSearchChange,
 }) => {
+  const { openRegistrationModal, isRegistered } = useRegistration();
+
   const [selectedCategory, setSelectedCategory] = useState<EventCategory>('All');
   const [internalSearchQuery, setInternalSearchQuery] = useState('');
   const [selectedCity, setSelectedCity] = useState<string>('All');
-  const [sortBy, setSortBy] = useState<SortOption>('date-asc');
+  const [selectedMonth, setSelectedMonth] = useState<string>('All');
 
   const searchQuery = externalSearchQuery !== undefined ? externalSearchQuery : internalSearchQuery;
   const setSearchQuery = (val: string) => {
@@ -28,244 +29,431 @@ export const EventDiscovery: React.FC<EventDiscoveryProps> = ({
     setInternalSearchQuery(val);
   };
 
-  // Extract unique cities
   const uniqueCities = useMemo(() => {
     const cities = new Set(events.map(e => e.city));
     return ['All', ...Array.from(cities)];
   }, [events]);
 
-  // Filtering & Sorting
-  const filteredEvents = useMemo(() => {
-    return events
-      .filter(event => {
-        if (selectedCategory !== 'All' && event.category !== selectedCategory) {
-          return false;
-        }
+  const months = ['All Months', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'];
 
-        if (selectedCity !== 'All' && event.city !== selectedCity) {
-          return false;
-        }
-
-        if (searchQuery.trim()) {
-          const query = searchQuery.toLowerCase().trim();
-          const matchesTitle = event.title.toLowerCase().includes(query);
-          const matchesDesc = event.description.toLowerCase().includes(query);
-          const matchesVenue = event.venue.toLowerCase().includes(query);
-          const matchesCity = event.city.toLowerCase().includes(query);
-          const matchesTags = event.tags.some(tag => tag.toLowerCase().includes(query));
-          return matchesTitle || matchesDesc || matchesVenue || matchesCity || matchesTags;
-        }
-
-        return true;
-      })
-      .sort((a, b) => {
-        if (sortBy === 'date-asc') {
-          return new Date(a.date).getTime() - new Date(b.date).getTime();
-        }
-        if (sortBy === 'date-desc') {
-          return new Date(b.date).getTime() - new Date(a.date).getTime();
-        }
-        if (sortBy === 'spots-asc') {
-          return a.spotsRemaining - b.spotsRemaining;
-        }
-        if (sortBy === 'title-asc') {
-          return a.title.localeCompare(b.title);
-        }
-        return 0;
-      });
-  }, [events, selectedCategory, selectedCity, searchQuery, sortBy]);
-
-  const hasActiveFilters = selectedCategory !== 'All' || selectedCity !== 'All' || searchQuery.trim().length > 0;
-
-  const handleResetFilters = () => {
-    setSelectedCategory('All');
-    setSelectedCity('All');
-    setSearchQuery('');
-    setSortBy('date-asc');
+  // Guarantee poster artwork from /posters/
+  const getEventPoster = (event: EventItem, index: number) => {
+    if (event.image && event.image.startsWith('/posters/')) return event.image;
+    return `/posters/poster-${(index % 20) + 1}.jfif`;
   };
 
-  const centerpieceEvent = useMemo(() => {
-    if (hasActiveFilters) return null;
-    return filteredEvents.find(e => e.featured) || null;
-  }, [filteredEvents, hasActiveFilters]);
+  // Filtered list
+  const filteredEvents = useMemo(() => {
+    return events.filter(event => {
+      if (selectedCategory !== 'All' && event.category !== selectedCategory) return false;
+      if (selectedCity !== 'All' && event.city !== selectedCity) return false;
+      if (selectedMonth !== 'All Months') {
+        const d = new Date(event.date);
+        const monthShort = d.toLocaleString('en-US', { month: 'short' });
+        if (monthShort.toLowerCase() !== selectedMonth.toLowerCase()) return false;
+      }
+      if (searchQuery.trim()) {
+        const q = searchQuery.toLowerCase().trim();
+        return (
+          event.title.toLowerCase().includes(q) ||
+          event.description.toLowerCase().includes(q) ||
+          event.venue.toLowerCase().includes(q) ||
+          event.city.toLowerCase().includes(q) ||
+          event.tags.some(t => t.toLowerCase().includes(q))
+        );
+      }
+      return true;
+    });
+  }, [events, selectedCategory, selectedCity, selectedMonth, searchQuery]);
 
-  const gridEvents = useMemo(() => {
-    if (centerpieceEvent) {
-      return filteredEvents.filter(e => e.id !== centerpieceEvent.id);
-    }
-    return filteredEvents;
-  }, [filteredEvents, centerpieceEvent]);
+  // Top headliners for the "Your Top Artists" style horizontal cards
+  const topHeadliners = useMemo(() => {
+    return filteredEvents.slice(0, 5);
+  }, [filteredEvents]);
+
+  // Collectives for "Your Top Albums" section
+  const collectives = useMemo(() => {
+    return [
+      {
+        id: 'coll-1',
+        name: 'Sonic Guild Independent',
+        curator: 'Modular Synthesis & Spatial Audio',
+        image: '/posters/poster-1.jfif',
+        gatheringsCount: 3,
+      },
+      {
+        id: 'coll-2',
+        name: 'Atelier Variable',
+        curator: 'Risograph Press & Editorial Lab',
+        image: '/posters/poster-2.jfif',
+        gatheringsCount: 2,
+      },
+      {
+        id: 'coll-3',
+        name: 'Subterranean Cinema',
+        curator: '16mm Celluloid Projections',
+        image: '/posters/poster-3.jfif',
+        gatheringsCount: 4,
+      },
+      {
+        id: 'coll-4',
+        name: 'Localhost Systems Group',
+        curator: 'Low-overhead Systems & Kernels',
+        image: '/posters/poster-4.jfif',
+        gatheringsCount: 2,
+      },
+      {
+        id: 'coll-5',
+        name: 'Velodrome Midnight',
+        curator: 'Track Cycling & Fixed Gear League',
+        image: '/posters/poster-5.jfif',
+        gatheringsCount: 3,
+      },
+    ];
+  }, []);
 
   return (
-    <section id="discovery-section" className="py-12 sm:py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-        
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-slate-200/80 dark:border-slate-800">
-          <div>
-            <div className="flex items-center gap-2 text-xs font-semibold tracking-wider text-blue-600 dark:text-blue-400 uppercase mb-2">
-              <span>EXPLORE GATHERINGS</span>
-              <span>/</span>
-              <span>CURATED INDEX</span>
-            </div>
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-slate-900 dark:text-white">
-              Curated Event Directory
-            </h2>
-          </div>
+    <section id="discovery" className="relative w-full bg-[#0D1117] text-white pt-14 sm:pt-20 pb-28 border-b border-[#30363D]">
+      
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-14">
 
-          <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400">
-            <span>
-              Showing <strong className="text-slate-900 dark:text-white font-semibold">{filteredEvents.length}</strong> of{' '}
-              {events.length} listings
-            </span>
-            {hasActiveFilters && (
-              <button
-                onClick={handleResetFilters}
-                className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 hover:bg-blue-100 font-medium transition-colors"
-              >
-                <RotateCcw className="w-3.5 h-3.5" />
-                <span>Reset</span>
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* Soft Filter Controls Bar */}
-        <div className="space-y-4">
-          
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-3">
-            
-            {/* Search Pill Input (6 cols) */}
-            <div className="md:col-span-6 relative">
-              <Search className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-                placeholder="Search by keywords, venue, artist, topic (modular, riso, film)..."
-                className="w-full pl-11 pr-10 py-3 bg-white dark:bg-atmosphere-cardDark border border-slate-200/80 dark:border-slate-700 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 rounded-full focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 shadow-soft-sm font-sans"
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery('')}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-800 dark:hover:text-white"
-                  aria-label="Clear search"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              )}
-            </div>
-
-            {/* City Selector Pill (3 cols) */}
-            <div className="md:col-span-3">
-              <select
-                value={selectedCity}
-                onChange={e => setSelectedCity(e.target.value)}
-                className="w-full py-3 px-4 bg-white dark:bg-atmosphere-cardDark border border-slate-200/80 dark:border-slate-700 text-sm text-slate-800 dark:text-white rounded-full focus:outline-none focus:border-blue-500 shadow-soft-sm font-medium"
-                aria-label="Filter by city"
-              >
-                <option value="All">All Regions & Metros</option>
-                {uniqueCities.filter(c => c !== 'All').map(c => (
-                  <option key={c} value={c}>{c}</option>
-                ))}
-              </select>
-            </div>
-
-            {/* Sort Dropdown Pill (3 cols) */}
-            <div className="md:col-span-3">
-              <select
-                value={sortBy}
-                onChange={e => setSortBy(e.target.value as SortOption)}
-                className="w-full py-3 px-4 bg-white dark:bg-atmosphere-cardDark border border-slate-200/80 dark:border-slate-700 text-sm text-slate-800 dark:text-white rounded-full focus:outline-none focus:border-blue-500 shadow-soft-sm font-medium"
-                aria-label="Sort events"
-              >
-                <option value="date-asc">Date: Earliest First</option>
-                <option value="date-desc">Date: Latest First</option>
-                <option value="spots-asc">Availability: Fewest Spots</option>
-                <option value="title-asc">Alphabetical: A to Z</option>
-              </select>
-            </div>
-
-          </div>
-
-          {/* Category Filter Pills (Inspo Style) */}
-          <div id="categories-filter" className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none pt-1">
-            <span className="text-xs font-medium text-slate-400 uppercase tracking-wider shrink-0 mr-1 flex items-center gap-1.5">
-              <SlidersHorizontal className="w-3.5 h-3.5" />
-              Category:
-            </span>
-            {CATEGORIES_LIST.map(cat => {
-              const isActive = selectedCategory === cat;
+        {/* 1. TOP SEGMENTED PILL BAR (Apple iOS/macOS Clean Minimalist Segmented Control) */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div id="categories-filter" className="inline-flex items-center p-1 rounded-full bg-[#161B22] border border-[#30363D]">
+            {CATEGORIES_LIST.slice(0, 5).map(cat => {
+              const active = selectedCategory === cat;
               return (
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`px-4 py-2 text-xs font-medium whitespace-nowrap rounded-full transition-all duration-200 ${
-                    isActive
-                      ? 'bg-blue-600 text-white shadow-md shadow-blue-600/25'
-                      : 'bg-white dark:bg-atmosphere-cardDark border border-slate-200/80 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-slate-400 hover:shadow-soft-sm'
+                  className={`px-4 sm:px-5 py-1.5 text-xs sm:text-sm font-medium rounded-full transition-all duration-150 ${
+                    active
+                      ? 'bg-white text-black font-semibold shadow-sm'
+                      : 'text-[#8B949E] hover:text-white'
                   }`}
                 >
-                  {cat}
+                  {cat === 'All' ? 'All Gatherings' : cat}
                 </button>
               );
             })}
           </div>
 
+          {/* Clean Apple Dark Search Input */}
+          <div className="relative w-full sm:w-72">
+            <Search className="w-4 h-4 text-[#8B949E] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              placeholder="Search artists, sound, cities..."
+              className="w-full h-10 pl-9 pr-8 bg-[#161B22] hover:bg-[#1C2128] focus:bg-[#1C2128] border border-[#30363D] focus:border-white/40 rounded-full text-xs text-white placeholder-[#8B949E] focus:outline-none transition-colors"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8B949E] hover:text-white"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
         </div>
 
-        {/* Centerpiece Feature Highlight */}
-        {centerpieceEvent && (
-          <div id="centerpiece-event" className="space-y-3 pt-2">
-            <EventCard event={centerpieceEvent} variant="centerpiece" />
+        {/* 2. REPLAY HEADER & MONTH TIMELINE (Clean, Apple-Style Header & Callout) */}
+        <div className="space-y-4 pt-2 border-b border-[#30363D] pb-7">
+          <div className="flex flex-wrap items-baseline justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white">
+                Upcoming Gatherings
+              </h2>
+              <span className="px-3 py-1 text-xs font-medium rounded-full bg-[#161B22] border border-[#30363D] text-[#8B949E]">
+                2026 ▾
+              </span>
+            </div>
+
+            {/* City Location Filter */}
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-[#8B949E] font-mono">Location:</span>
+              <select
+                value={selectedCity}
+                onChange={e => setSelectedCity(e.target.value)}
+                className="bg-[#161B22] border border-[#30363D] text-xs text-[#C9D1D9] rounded-full px-3 py-1.5 focus:outline-none focus:border-white/40 appearance-none cursor-pointer"
+              >
+                {uniqueCities.map(city => (
+                  <option key={city} value={city} className="bg-[#161B22] text-white">
+                    {city === 'All' ? 'All Cities' : city}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Month Selector Pills */}
+          <div className="flex items-center gap-2 overflow-x-auto scrollbar-none pt-2">
+            {months.map(m => {
+              const active = selectedMonth === m;
+              return (
+                <button
+                  key={m}
+                  onClick={() => setSelectedMonth(m)}
+                  className={`text-xs sm:text-sm font-medium px-3.5 py-1.5 rounded-full transition-colors ${
+                    active
+                      ? 'bg-white text-black font-semibold shadow-sm'
+                      : 'text-[#8B949E] hover:text-white hover:bg-white/[0.04]'
+                  }`}
+                >
+                  {m}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Apple Clean Typography Callout Stat — No Gradient */}
+          <div className="pt-2">
+            <p className="text-lg sm:text-2xl md:text-3xl font-medium text-[#8B949E]">
+              You have <span className="font-bold text-white">{filteredEvents.length} curated gatherings</span> lined up for{' '}
+              <span className="font-bold text-white underline decoration-[#30363D] underline-offset-4">
+                Season 2026
+              </span>.
+            </p>
+          </div>
+        </div>
+
+        {/* 3. SECTION 1: TOP GATHERINGS (Apple Music "Your Top Artists >" Large Numbered Cards) */}
+        {topHeadliners.length > 0 && (
+          <div className="space-y-5">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1.5 text-xl sm:text-2xl font-bold text-white">
+                <span>Top Gatherings</span>
+                <ChevronRight className="w-5 h-5 text-[#8B949E]" />
+              </div>
+              <span className="text-xs text-[#8B949E] font-mono">Ranked by resonance</span>
+            </div>
+
+            {/* Horizontal Scroll Deck */}
+            <div className="flex gap-4 sm:gap-6 overflow-x-auto pb-4 scrollbar-none pt-2 -mx-4 px-4 sm:mx-0 sm:px-0">
+              {topHeadliners.map((event, index) => {
+                const registered = isRegistered(event.id);
+                const rank = index + 1;
+                return (
+                  <div
+                    key={event.id}
+                    onClick={() => openRegistrationModal(event)}
+                    className="group relative shrink-0 w-[220px] sm:w-[260px] md:w-[280px] h-[320px] sm:h-[370px] md:h-[400px] rounded-[24px] sm:rounded-[28px] overflow-hidden bg-[#161B22] border border-[#30363D] hover:border-white/30 cursor-pointer shadow-xl transition-all duration-300 hover:-translate-y-1"
+                  >
+                    {/* Poster Artwork Image */}
+                    <img
+                      src={getEventPoster(event, index)}
+                      alt={event.title}
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                    />
+
+                    {/* Dark gradient scrim at bottom for text legibility */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent" />
+
+                    {/* Big Bold Clean White Rank Number (1, 2, 3...) at Top Left */}
+                    <div className="absolute top-4 left-5 select-none">
+                      <span className="text-5xl sm:text-6xl md:text-7xl font-black text-white tracking-tighter drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)]">
+                        {rank}
+                      </span>
+                    </div>
+
+                    {/* Top Right Badges */}
+                    <div className="absolute top-4 right-4 flex flex-col items-end gap-1.5">
+                      <span className="px-2.5 py-1 text-[11px] font-medium rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-white">
+                        {event.category}
+                      </span>
+                      {registered && (
+                        <span className="px-2.5 py-1 text-[11px] font-medium rounded-full bg-emerald-600 text-white flex items-center gap-1 shadow-md">
+                          <CheckCircle2 className="w-3 h-3" /> Reserved
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Bottom Metadata */}
+                    <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6 space-y-1.5">
+                      <h3 className="text-base sm:text-lg font-bold text-white leading-snug line-clamp-2">
+                        {event.title}
+                      </h3>
+                      <p className="text-xs text-[#8B949E] font-medium flex items-center gap-2">
+                        <span>{event.city}</span>
+                        <span>•</span>
+                        <span>{event.spotsRemaining} spots left</span>
+                      </p>
+                      <div className="pt-2 flex items-center justify-between text-xs font-mono text-white">
+                        <span className="text-white font-semibold">{event.price}</span>
+                        <span className="text-[#8B949E] group-hover:text-white transition-colors">Reserve Pass →</span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         )}
 
-        {/* Responsive Events Grid */}
-        {gridEvents.length > 0 ? (
-          <div className="space-y-6">
-            {centerpieceEvent && (
-              <div className="pt-6 flex items-center justify-between">
-                <h3 className="font-serif text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-                  Upcoming Gatherings
-                </h3>
-                <span className="text-xs text-slate-500 dark:text-slate-400">
-                  {gridEvents.length} entries listed
-                </span>
-              </div>
-            )}
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-              {gridEvents.map(event => (
-                <EventCard key={event.id} event={event} />
-              ))}
+        {/* 4. SECTION 2: GATHERINGS DIRECTORY (Apple Music "Your Top Songs >" 2-Column Tracklist) */}
+        <div className="space-y-5">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1.5 text-xl sm:text-2xl font-bold text-white">
+              <span>Gatherings Directory</span>
+              <ChevronRight className="w-5 h-5 text-[#8B949E]" />
             </div>
+            <span className="text-xs text-[#8B949E] font-mono">
+              Showing {filteredEvents.length} of {events.length}
+            </span>
           </div>
-        ) : (
-          /* Soft Empty State */
-          <div className="py-16 text-center border border-dashed border-slate-200 dark:border-slate-800 bg-white dark:bg-atmosphere-cardDark rounded-3xl p-8 space-y-4 shadow-soft">
-            <div className="w-14 h-14 mx-auto rounded-full bg-blue-50 dark:bg-blue-950/40 text-blue-600 flex items-center justify-center font-serif text-2xl">
-              ☁️
-            </div>
-            <div className="space-y-1">
-              <h3 className="font-serif text-xl font-bold text-slate-900 dark:text-white">
-                No gatherings match your criteria
-              </h3>
-              <p className="text-sm text-slate-500 dark:text-slate-400 max-w-md mx-auto">
-                We couldn't find events matching "{searchQuery}" in {selectedCategory}.
-                Try broadening your search or resetting filters.
+
+          {/* 2-Column Apple Music Tracklist Rows */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-2">
+            {filteredEvents.map((event, index) => {
+              const registered = isRegistered(event.id);
+              const rank = index + 1;
+              return (
+                <div
+                  key={event.id}
+                  className="group flex items-center gap-3 sm:gap-4 p-2.5 sm:p-3 rounded-2xl hover:bg-[#161B22] transition-colors border border-transparent hover:border-[#30363D]"
+                >
+                  {/* Rank Number */}
+                  <span className="w-6 text-center text-sm font-bold text-[#8B949E] group-hover:text-white select-none shrink-0 font-mono">
+                    {rank}
+                  </span>
+
+                  {/* Square Cover Poster Artwork */}
+                  <div
+                    onClick={() => openRegistrationModal(event)}
+                    className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-xl overflow-hidden shrink-0 cursor-pointer shadow-md bg-[#161B22] border border-[#30363D]"
+                  >
+                    <img
+                      src={getEventPoster(event, index)}
+                      alt={event.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    {registered && (
+                      <div className="absolute inset-0 bg-emerald-950/70 flex items-center justify-center">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Title & Subtitle Info */}
+                  <div className="flex-1 min-w-0">
+                    <Link
+                      to={`/event/${event.id}`}
+                      className="block text-sm font-semibold text-white group-hover:text-blue-400 transition-colors truncate"
+                    >
+                      {event.title}
+                    </Link>
+                    <div className="flex items-center gap-1.5 text-xs text-[#8B949E] truncate pt-0.5">
+                      <span>{event.category}</span>
+                      <span>•</span>
+                      <span>{event.city}</span>
+                      <span>•</span>
+                      <span>{event.displayDate}</span>
+                    </div>
+                  </div>
+
+                  {/* Price Tag & Action */}
+                  <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+                    <span className="text-xs font-mono text-[#8B949E] hidden sm:inline-block">
+                      {event.price.split('/')[0]}
+                    </span>
+
+                    {/* Quick RSVP Button */}
+                    <button
+                      onClick={() => openRegistrationModal(event)}
+                      className={`px-3.5 py-1.5 text-xs font-medium rounded-full transition-all ${
+                        registered
+                          ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30'
+                          : 'bg-[#161B22] hover:bg-white text-white hover:text-black border border-[#30363D]'
+                      }`}
+                    >
+                      {registered ? 'Pass' : 'RSVP'}
+                    </button>
+
+                    {/* Link to Details */}
+                    <Link
+                      to={`/event/${event.id}`}
+                      className="p-1.5 text-[#8B949E] hover:text-white rounded-full hover:bg-white/10 transition-colors"
+                      title="View gathering details"
+                    >
+                      <ArrowUpRight className="w-4 h-4" />
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {filteredEvents.length === 0 && (
+            <div className="text-center py-16 bg-[#161B22] rounded-3xl border border-[#30363D] space-y-3">
+              <p className="text-lg font-bold text-white">No gatherings found</p>
+              <p className="text-xs text-[#8B949E] max-w-sm mx-auto">
+                No gatherings match your selected criteria. Try resetting filters to explore all sessions.
               </p>
-            </div>
-            <div className="pt-2">
               <button
-                onClick={handleResetFilters}
-                className="px-6 py-2.5 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold tracking-wide shadow-md shadow-blue-600/20 transition-all"
+                onClick={() => {
+                  setSelectedCategory('All');
+                  setSelectedCity('All');
+                  setSelectedMonth('All Months');
+                  setSearchQuery('');
+                }}
+                className="mt-2 px-5 py-2 text-xs font-semibold rounded-full bg-white text-black hover:bg-white/90"
               >
-                Clear All Filters
+                Reset all filters
               </button>
             </div>
+          )}
+        </div>
+
+        {/* 5. SECTION 3: CURATED COLLECTIVES (Apple Music "Your Top Albums >" Square Covers) */}
+        <div className="space-y-5 pt-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1.5 text-xl sm:text-2xl font-bold text-white">
+              <span>Curated Collectives & Series</span>
+              <ChevronRight className="w-5 h-5 text-[#8B949E]" />
+            </div>
+            <span className="text-xs text-[#8B949E] font-mono">Guilds & residencies</span>
           </div>
-        )}
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 sm:gap-6">
+            {collectives.map((coll, idx) => (
+              <div
+                key={coll.id}
+                className="group space-y-2.5 cursor-pointer"
+                onClick={() => setSelectedCategory('All')}
+              >
+                {/* Square Album Cover */}
+                <div className="relative aspect-square rounded-2xl overflow-hidden bg-[#161B22] border border-[#30363D] group-hover:border-white/30 shadow-lg transition-all duration-300 group-hover:-translate-y-1">
+                  <img
+                    src={coll.image}
+                    alt={coll.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
+                  <div className="absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between text-[11px] font-mono text-white/80">
+                    <span className="px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md">
+                      #{idx + 1} Series
+                    </span>
+                    <span className="px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md">
+                      {coll.gatheringsCount} sessions
+                    </span>
+                  </div>
+                </div>
+
+                {/* Caption */}
+                <div className="space-y-0.5 px-0.5">
+                  <h4 className="text-xs sm:text-sm font-bold text-white group-hover:text-blue-400 transition-colors truncate">
+                    {coll.name}
+                  </h4>
+                  <p className="text-[11px] text-[#8B949E] truncate">
+                    {coll.curator}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
 
       </div>
     </section>

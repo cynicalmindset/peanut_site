@@ -1,136 +1,139 @@
-import React, { useState } from 'react';
-import { ArrowRight, Sparkles, Search } from 'lucide-react';
+import React from 'react';
 import { EVENTS_DATA } from '../data/events';
+import { useRegistration } from '../context/RegistrationContext';
 
 interface HeroProps {
-  onExploreClick: () => void;
-  onFeaturedClick: () => void;
-  onSearchSubmit?: (query: string) => void;
+  onExploreClick?: () => void;
 }
 
-export const Hero: React.FC<HeroProps> = ({ onExploreClick, onFeaturedClick, onSearchSubmit }) => {
-  const [quickQuery, setQuickQuery] = useState('');
-  const featuredEvent = EVENTS_DATA.find(e => e.featured) || EVENTS_DATA[0];
+export const Hero: React.FC<HeroProps> = () => {
+  const { openRegistrationModal } = useRegistration();
 
-  const handleQuickSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (onSearchSubmit && quickQuery.trim()) {
-      onSearchSubmit(quickQuery.trim());
-    } else {
-      onExploreClick();
-    }
-  };
+  // 5 pure poster cards, broadened while maintaining exact height
+  const cards = [
+    {
+      id: 'card-1',
+      title: 'Akira',
+      image: '/posters/poster-1.jfif',
+      event: EVENTS_DATA[0],
+      width: 'w-[145px] sm:w-[186px] md:w-[222px] lg:w-[246px]',
+      height: 'h-[231px] sm:h-[288px] md:h-[336px] lg:h-[363px]',
+      rotation: '-rotate-[9deg]',
+      baseTranslateY: 'translate-y-4 sm:translate-y-5',
+      margin: '',
+      zIndex: 10,
+    },
+    {
+      id: 'card-2',
+      title: 'Studio',
+      image: '/posters/poster-2.jfif',
+      event: EVENTS_DATA[1],
+      width: 'w-[162px] sm:w-[206px] md:w-[242px] lg:w-[268px]',
+      height: 'h-[253px] sm:h-[317px] md:h-[363px] lg:h-[396px]',
+      rotation: '-rotate-[4deg]',
+      baseTranslateY: 'translate-y-1.5 sm:translate-y-2',
+      margin: '-ml-10 sm:-ml-14 md:-ml-18 lg:-ml-22',
+      zIndex: 20,
+    },
+    {
+      id: 'card-3',
+      title: 'Rickshaw Vibes',
+      image: '/posters/poster-3.jfif',
+      event: EVENTS_DATA[4],
+      width: 'w-[182px] sm:w-[228px] md:w-[270px] lg:w-[298px]',
+      height: 'h-[280px] sm:h-[348px] md:h-[398px] lg:h-[438px]',
+      rotation: 'rotate-0',
+      baseTranslateY: '-translate-y-1 sm:-translate-y-1.5',
+      margin: '-ml-10 sm:-ml-14 md:-ml-18 lg:-ml-22',
+      zIndex: 30, // Front & center, largest
+    },
+    {
+      id: 'card-4',
+      title: 'Arjun',
+      image: '/posters/poster-4.jfif',
+      event: EVENTS_DATA[5],
+      width: 'w-[162px] sm:w-[206px] md:w-[242px] lg:w-[268px]',
+      height: 'h-[253px] sm:h-[317px] md:h-[363px] lg:h-[396px]',
+      rotation: 'rotate-[4deg]',
+      baseTranslateY: 'translate-y-1.5 sm:translate-y-2',
+      margin: '-ml-10 sm:-ml-14 md:-ml-18 lg:-ml-22',
+      zIndex: 20,
+    },
+    {
+      id: 'card-5',
+      title: 'Vintage Radio',
+      image: '/posters/poster-5.jfif',
+      event: EVENTS_DATA[7],
+      width: 'w-[145px] sm:w-[186px] md:w-[222px] lg:w-[246px]',
+      height: 'h-[231px] sm:h-[288px] md:h-[336px] lg:h-[363px]',
+      rotation: 'rotate-[9deg]',
+      baseTranslateY: 'translate-y-4 sm:translate-y-5',
+      margin: '-ml-10 sm:-ml-14 md:-ml-18 lg:-ml-22',
+      zIndex: 10,
+    },
+  ];
 
   return (
-    <section className="relative px-4 sm:px-6 lg:px-8 pt-6 pb-12 sm:pb-16 overflow-hidden">
+    <section className="relative w-full bg-[#0D1117] text-white pt-14 sm:pt-20 md:pt-24 pb-0 overflow-hidden border-b border-[#30363D]">
       
-      {/* Outer Soft Framed Canvas (Inspired by Inspo 1 & 2) */}
-      <div className="max-w-7xl mx-auto">
-        <div className="relative rounded-3xl sm:rounded-[36px] overflow-hidden shadow-float border border-sky-100/80 dark:border-slate-800 bg-gradient-to-b from-sky-400 via-sky-500 to-blue-600 text-white min-h-[580px] sm:min-h-[660px] flex flex-col justify-between">
-          
-          {/* Background Hero Image - hero.png */}
-          <div className="absolute inset-0 z-0">
-            <img 
-              src="/hero.png" 
-              alt="Atmosphere cultural gathering landscape"
-              className="w-full h-full object-cover object-bottom sm:object-center select-none"
-              loading="eager"
-            />
-            {/* Soft atmospheric gradient scrims to ensure pristine typography legibility */}
-            <div className="absolute inset-0 bg-gradient-to-b from-blue-900/60 via-blue-900/25 to-transparent pointer-events-none" />
-            <div className="absolute inset-0 bg-radial-gradient from-transparent via-transparent to-blue-950/40 pointer-events-none" />
-          </div>
+      {/* Big, Visible, Fading Grid Background (80px tiles with distinct contrast) */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, rgba(255, 255, 255, 0.10) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.10) 1px, transparent 1px)
+          `,
+          backgroundSize: '80px 80px',
+          maskImage: 'radial-gradient(ellipse 75% 65% at 50% 38%, black 30%, transparent 85%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 75% 65% at 50% 38%, black 30%, transparent 85%)',
+        }}
+      />
 
-          {/* Top Pill Ribbon */}
-          <div className="relative z-10 pt-8 sm:pt-10 px-6 sm:px-12 flex items-center justify-between">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-medium tracking-wide shadow-soft-sm">
-              <Sparkles className="w-3.5 h-3.5 text-amber-200" />
-              <span>atmosphere issue 04 • autumn 2026</span>
+      {/* Ambient center light */}
+      <div className="absolute top-28 left-1/2 -translate-x-1/2 w-[700px] h-[280px] bg-blue-500/[0.07] blur-[140px] pointer-events-none rounded-full" />
+
+      {/* Centered Heading Content with Harmonious Dual-Font Typography */}
+      <div className="relative z-20 max-w-3xl mx-auto px-4 text-center space-y-2 sm:space-y-3">
+        <h1 className="text-center select-none">
+          <span className="block font-sans font-bold tracking-tight text-3xl sm:text-5xl md:text-6xl text-white leading-[1.2] pb-1 sm:pb-2">
+            Curated Gatherings
+          </span>
+          <span className="block font-display italic font-normal text-5xl sm:text-7xl md:text-8xl tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent leading-[1.18] pb-2 sm:pb-3">
+            Unforgettable Nights
+          </span>
+        </h1>
+
+        <p className="text-xs sm:text-sm md:text-base text-[#8B949E] max-w-lg mx-auto leading-relaxed pt-0.5">
+          Handpicked cultural gatherings, live music, and creative summits.
+        </p>
+      </div>
+
+      {/* THE 5 OVERLAPPING FANNED CARDS (broadened width, same height) */}
+      <div className="relative z-20 mt-6 sm:mt-8 md:mt-10 max-w-5xl mx-auto px-4 overflow-x-auto sm:overflow-visible pb-0 pt-2 scrollbar-none flex justify-center">
+        <div className="flex items-end justify-center min-w-[540px] sm:min-w-0 translate-y-[5%] sm:translate-y-[5%]">
+          {cards.map((card) => (
+            <div
+              key={card.id}
+              onClick={() => openRegistrationModal(card.event)}
+              className={`relative shrink-0 ${card.width} ${card.height} ${card.margin} ${card.rotation} ${card.baseTranslateY} rounded-t-[20px] sm:rounded-t-[26px] md:rounded-t-[30px] overflow-hidden shadow-[-11px_0_26px_rgba(0,0,0,0.8),0_19px_48px_rgba(0,0,0,0.9)] border-t border-x border-white/20 select-none cursor-pointer bg-[#161B22]`}
+              style={{
+                zIndex: card.zIndex,
+              }}
+              title={`Click to reserve: ${card.event.title}`}
+            >
+              {/* Pure Poster Image — No text, no header, no badge */}
+              <img
+                src={card.image}
+                alt={card.title}
+                className="w-full h-full object-cover select-none pointer-events-none"
+                loading="eager"
+              />
+
+              {/* Subtle top/side edge highlight */}
+              <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-t-[20px] sm:rounded-t-[26px] md:rounded-t-[30px] pointer-events-none" />
             </div>
-
-            <div className="hidden md:flex items-center gap-3 text-xs text-white/90 font-medium">
-              <span className="px-3 py-1 rounded-full bg-black/20 backdrop-blur-md">8 gatherings documented</span>
-              <span className="px-3 py-1 rounded-full bg-black/20 backdrop-blur-md">4 cities indexed</span>
-            </div>
-          </div>
-
-          {/* Central Editorial Content (Inspo-aligned: Centered, clean, serene typography) */}
-          <div className="relative z-10 px-6 sm:px-12 py-10 sm:py-16 text-center max-w-4xl mx-auto space-y-6">
-            
-            <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white leading-[1.08] drop-shadow-md">
-              Find your next <br className="hidden sm:inline" />
-              <span className="font-normal italic font-serif">unforgettable</span> gathering.
-            </h1>
-
-            <p className="text-white/95 text-base sm:text-xl font-normal max-w-2xl mx-auto leading-relaxed drop-shadow-sm font-sans">
-              Discover intimate modular sound symposia, tactile risograph print labs, 
-              systems unconferences, and night gravel rides across your city.
-            </p>
-
-            {/* Inspo-Style Soft Pill Buttons */}
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-              <button
-                onClick={onExploreClick}
-                className="px-7 py-3.5 rounded-full bg-white text-blue-900 hover:bg-slate-50 font-medium text-sm tracking-wide shadow-lg shadow-black/10 hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200"
-              >
-                Explore Events
-              </button>
-
-              <button
-                onClick={onFeaturedClick}
-                className="px-6 py-3.5 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/40 text-white font-medium text-sm tracking-wide transition-all duration-200 flex items-center gap-2"
-              >
-                <span>Curated Feature</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-
-            {/* Inspo 2 Floating Pill Search Bar Component */}
-            <div className="pt-4 max-w-xl mx-auto">
-              <form 
-                onSubmit={handleQuickSearch}
-                className="p-2 sm:p-2.5 rounded-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-white/60 dark:border-slate-700 shadow-2xl flex items-center gap-2 transition-all hover:bg-white"
-              >
-                <div className="pl-3 text-slate-400">
-                  <Search className="w-4 h-4" />
-                </div>
-                <input
-                  type="text"
-                  value={quickQuery}
-                  onChange={e => setQuickQuery(e.target.value)}
-                  placeholder="Search by topic, artist, sound, or city..."
-                  className="w-full bg-transparent text-sm text-slate-800 dark:text-white placeholder:text-slate-400 focus:outline-none font-sans px-2"
-                />
-                <button
-                  type="submit"
-                  className="px-5 py-2.5 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold tracking-wide transition-all shrink-0 shadow-sm"
-                >
-                  Find
-                </button>
-              </form>
-            </div>
-
-          </div>
-
-          {/* Bottom Community / Partner Ribbon (matching inspo 1 footer ticker) */}
-          <div className="relative z-10 border-t border-white/20 bg-black/20 backdrop-blur-md py-4 px-6 sm:px-12 flex flex-wrap items-center justify-between gap-4 text-xs text-white/80 font-medium">
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-              <span className="font-semibold text-white">Next Event:</span>
-              <span>{featuredEvent.title} — {featuredEvent.displayDate}</span>
-            </div>
-
-            <div className="flex items-center gap-6 opacity-80 text-[11px] tracking-wider uppercase">
-              <span>Modular Sound</span>
-              <span>•</span>
-              <span>Risograph</span>
-              <span>•</span>
-              <span>Architecture</span>
-              <span>•</span>
-              <span>16mm Film</span>
-            </div>
-          </div>
-
+          ))}
         </div>
       </div>
 
